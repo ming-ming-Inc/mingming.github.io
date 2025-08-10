@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title>星座 + 血型 + MBTI 综合匹配计算器</title>
+  <title id="page-title">星座 + 血型 + MBTI 综合匹配计算器</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     :root {
@@ -335,28 +335,36 @@
 <body>
   <div class="wrap">
     <header>
-      <h1>星座 · 血型 · MBTI 综合匹配</h1>
-      <p class="lead">基于提供的第一套星座配对表、血型配对表与 MBTI 文字矩阵（非“原图 / 原表”部分），按权重：星座 0.4 + 血型 0.2 + MBTI 0.4 计算综合匹配分（0~100）。缺失项自动按剩余权重归一。</p>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+        <div style="flex: 1;">
+          <h1 id="main-title">星座 · 血型 · MBTI 综合匹配</h1>
+          <p class="lead" id="main-desc">基于提供的第一套星座配对表、血型配对表与 MBTI 文字矩阵（非"原图 / 原表"部分），按权重：星座 0.4 + 血型 0.2 + MBTI 0.4 计算综合匹配分（0~100）。缺失项自动按剩余权重归一。</p>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 8px;">
+          <button type="button" id="langCN" class="lang-btn active" style="font-size: 0.75rem; padding: 6px 12px; border: 1px solid var(--border); background: var(--accent); color: white; border-radius: 4px; cursor: pointer;">中文</button>
+          <button type="button" id="langEN" class="lang-btn" style="font-size: 0.75rem; padding: 6px 12px; border: 1px solid var(--border); background: var(--panel-alt); color: var(--muted); border-radius: 4px; cursor: pointer;">English</button>
+        </div>
+      </div>
     </header>
 
     <div class="grid">
       <!-- 左侧输入 -->
       <div class="card">
-        <h2 class="section-title">输入参数</h2>
+        <h2 class="section-title" id="input-title">输入参数</h2>
         <form id="form">
           <fieldset>
-            <legend>女方</legend>
+            <legend id="female-legend">女方</legend>
             <div class="group cols-3">
               <label>
-                星座
+                <span id="zodiac-label">星座</span>
                 <select name="femaleSign" required>
-                  <option value="">选择星座</option>
+                  <option value="" id="select-zodiac-option">选择星座</option>
                 </select>
               </label>
               <label>
-                血型
-                <select name="femaleBlood">
-                  <option value="">(可选)</option>
+                <span id="blood-label">血型</span>
+                <select name="femaleBlood" id="femaleBloodSelect">
+                  <option value="" id="optional-option">(可选)</option>
                   <option value="A">A</option>
                   <option value="B">B</option>
                   <option value="O">O</option>
@@ -364,27 +372,27 @@
                 </select>
               </label>
               <label>
-                MBTI
+                <span id="mbti-label">MBTI</span>
                 <select name="femaleMBTI">
-                  <option value="">(可选)</option>
+                  <option value="" id="optional-option2">(可选)</option>
                 </select>
               </label>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>男方</legend>
+            <legend id="male-legend">男方</legend>
             <div class="group cols-3">
               <label>
-                星座
+                <span id="zodiac-label2">星座</span>
                 <select name="maleSign" required>
-                  <option value="">选择星座</option>
+                  <option value="" id="select-zodiac-option2">选择星座</option>
                 </select>
               </label>
               <label>
-                血型
-                <select name="maleBlood">
-                  <option value="">(可选)</option>
+                <span id="blood-label2">血型</span>
+                <select name="maleBlood" id="maleBloodSelect">
+                  <option value="" id="optional-option3">(可选)</option>
                   <option value="A">A</option>
                   <option value="B">B</option>
                   <option value="O">O</option>
@@ -392,22 +400,22 @@
                 </select>
               </label>
               <label>
-                MBTI
+                <span id="mbti-label2">MBTI</span>
                 <select name="maleMBTI">
-                  <option value="">(可选)</option>
+                  <option value="" id="optional-option4">(可选)</option>
                 </select>
               </label>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend>选项</legend>
+            <legend id="options-legend">选项</legend>
             <div class="group">
               <div class="inline-label">
                 <input type="checkbox" id="autoUpdate" checked />
-                <label for="autoUpdate" style="margin:0; font-size:.7rem; cursor:pointer;">实时计算</label>
+                <label for="autoUpdate" style="margin:0; font-size:.7rem; cursor:pointer;" id="realtime-label">实时计算</label>
               </div>
-              <div class="notice">
+              <div class="notice" id="notice-text">
                 提示：星座为必填。若仅填星座，评分按 0.4 / 0.4 规则中实际有效权重自动归一。可逐步添加血型、MBTI 观察变化。
               </div>
             </div>
@@ -431,15 +439,15 @@
           <div class="pair-display" id="pairDisplay"></div>
           <div id="bars">
             <div>
-              <div class="weight-line"><span>星座</span><span id="zodiacNum">--</span></div>
+              <div class="weight-line"><span id="zodiac-bar-label">星座</span><span id="zodiacNum">--</span></div>
               <div class="bar-wrap"><div class="bar zodiac" id="barZodiac"></div></div>
             </div>
             <div>
-              <div class="weight-line"><span>血型</span><span id="bloodNum">--</span></div>
+              <div class="weight-line"><span id="blood-bar-label">血型</span><span id="bloodNum">--</span></div>
               <div class="bar-wrap"><div class="bar blood" id="barBlood"></div></div>
             </div>
             <div>
-              <div class="weight-line"><span>MBTI</span><span id="mbtiNum">--</span></div>
+              <div class="weight-line"><span id="mbti-bar-label">MBTI</span><span id="mbtiNum">--</span></div>
               <div class="bar-wrap"><div class="bar mbti" id="barMBTI"></div></div>
             </div>
           </div>
@@ -447,42 +455,231 @@
           <table id="detailTable">
             <thead>
               <tr>
-                <th>来源</th>
-                <th>原始分</th>
-                <th>权重</th>
-                <th>加权贡献</th>
-                <th>说明</th>
+                <th id="table-source">来源</th>
+                <th id="table-raw-score">原始分</th>
+                <th id="table-weight">权重</th>
+                <th id="table-contribution">加权贡献</th>
+                <th id="table-description">说明</th>
               </tr>
             </thead>
             <tbody id="detailBody">
-              <tr><td colspan="5" class="empty">暂无数据</td></tr>
+              <tr><td colspan="5" class="empty" id="no-data">暂无数据</td></tr>
             </tbody>
           </table>
           <div class="dim" id="noteText"></div>
         </div>
 
         <div class="card">
-          <h2 class="section-title">评分等级</h2>
+          <h2 class="section-title" id="rating-title">评分等级</h2>
           <div class="mini-grid">
-            <div class="chip"><strong style="color:#ffffff">90~100</strong> 极佳 / 天生一对</div>
-            <div class="chip"><strong style="color:#6dc9ff">80~89</strong> 很好 / 稳定向上</div>
-            <div class="chip"><strong style="color:#5ce0a2">70~79</strong> 中上 / 需沟通巩固</div>
-            <div class="chip"><strong style="color:#ffcf6d">60~69</strong> 尚可 / 可试试看</div>
-            <div class="chip"><strong style="color:#ff8590">0~59</strong> 需努力 / 差异较大</div>
+            <div class="chip" id="rating-90"><strong style="color:#ffffff">90~100</strong> <span id="rating-90-text">极佳 / 天生一对</span></div>
+            <div class="chip" id="rating-80"><strong style="color:#6dc9ff">80~89</strong> <span id="rating-80-text">很好 / 稳定向上</span></div>
+            <div class="chip" id="rating-70"><strong style="color:#5ce0a2">70~79</strong> <span id="rating-70-text">中上 / 需沟通巩固</span></div>
+            <div class="chip" id="rating-60"><strong style="color:#ffcf6d">60~69</strong> <span id="rating-60-text">尚可 / 可试试看</span></div>
+            <div class="chip" id="rating-0"><strong style="color:#ff8590">0~59</strong> <span id="rating-0-text">需努力 / 差异较大</span></div>
           </div>
-          <p class="dim" style="margin-top:12px;">
+          <p class="dim" style="margin-top:12px;" id="disclaimer">
             本工具仅基于提供的配对表格数据客观计算，不代表真实关系走向。实际相处请以尊重、沟通、成长为核心。
           </p>
         </div>
       </div>
     </div>
 
-    <footer>
+    <footer id="footer-text">
       综合匹配算法演示 · 数据来源：用户提供的表格（第一套非原图/原表部分） · 前端纯本地计算
     </footer>
   </div>
 
   <script>
+    // ================= 语言数据定义 =================
+    let currentLang = 'zh';
+    
+    const translations = {
+      zh: {
+        'main-title': '星座 · 血型 · MBTI 综合匹配',
+        'main-desc': '基于提供的第一套星座配对表、血型配对表与 MBTI 文字矩阵（非"原图 / 原表"部分），按权重：星座 0.4 + 血型 0.2 + MBTI 0.4 计算综合匹配分（0~100）。缺失项自动按剩余权重归一。',
+        'input-title': '输入参数',
+        'female-legend': '女方',
+        'male-legend': '男方',
+        'options-legend': '选项',
+        'zodiac-label': '星座',
+        'blood-label': '血型',
+        'mbti-label': 'MBTI',
+        'select-zodiac-option': '选择星座',
+        'optional-option': '(可选)',
+        'realtime-label': '实时计算',
+        'notice-text': '提示：星座为必填。若仅填星座，评分按 0.4 / 0.4 规则中实际有效权重自动归一。可逐步添加血型、MBTI 观察变化。',
+        'calcBtn': '计算',
+        'randomBtn': '随机示例',
+        'clearBtn': '清空',
+        'rating-title': '评分等级',
+        'rating-90-text': '极佳 / 天生一对',
+        'rating-80-text': '很好 / 稳定向上',
+        'rating-70-text': '中上 / 需沟通巩固',
+        'rating-60-text': '尚可 / 可试试看',
+        'rating-0-text': '需努力 / 差异较大',
+        'disclaimer': '本工具仅基于提供的配对表格数据客观计算，不代表真实关系走向。实际相处请以尊重、沟通、成长为核心。',
+        'footer-text': '综合匹配算法演示 · 数据来源：用户提供的表格（第一套非原图/原表部分） · 前端纯本地计算',
+        'table-source': '来源',
+        'table-raw-score': '原始分',
+        'table-weight': '权重',
+        'table-contribution': '加权贡献',
+        'table-description': '说明',
+        'no-data': '暂无数据',
+        'waiting-input': '等待输入',
+        'waiting-zodiac': '等待星座',
+        'please-select-zodiac': '请至少选择双方星座',
+        'missing-items': '缺少可用项',
+        'not-participated': '未参与',
+        'partial-missing': '部分缺失：已按有效权重归一',
+        'complete-calc': '完整计算',
+        'effective-weight-sum': '有效权重总和：',
+        'female-zodiac': '女方星座：',
+        'male-zodiac': '男方星座：',
+        'female-blood': '女血型：',
+        'male-blood': '男血型：',
+        'female-mbti': '女MBTI：',
+        'male-mbti': '男MBTI：',
+        // 评分等级
+        'excellent': '极佳',
+        'very-good': '很好',
+        'good': '中上',
+        'try': '可尝试',
+        'need-effort': '需努力',
+        'page-title': '星座 + 血型 + MBTI 综合匹配计算器'
+      },
+      en: {
+        'main-title': 'Zodiac · Blood Type · MBTI Compatibility',
+        'main-desc': 'Based on the provided zodiac compatibility table, blood type compatibility table, and MBTI text matrix (non-"original image/table" parts), calculated with weights: Zodiac 0.4 + Blood Type 0.2 + MBTI 0.4 for comprehensive compatibility score (0~100). Missing items are automatically normalized by remaining weights.',
+        'input-title': 'Input Parameters',
+        'female-legend': 'Female',
+        'male-legend': 'Male',
+        'options-legend': 'Options',
+        'zodiac-label': 'Zodiac',
+        'blood-label': 'Blood Type',
+        'mbti-label': 'MBTI',
+        'select-zodiac-option': 'Select Zodiac',
+        'optional-option': '(Optional)',
+        'realtime-label': 'Real-time Calculation',
+        'notice-text': 'Note: Zodiac signs are required. If only zodiac signs are filled, the score is normalized according to the effective weight in the 0.4 / 0.4 rule. You can gradually add blood type and MBTI to observe changes.',
+        'calcBtn': 'Calculate',
+        'randomBtn': 'Random Example',
+        'clearBtn': 'Clear',
+        'rating-title': 'Rating Levels',
+        'rating-90-text': 'Excellent / Perfect Match',
+        'rating-80-text': 'Very Good / Stable Growth',
+        'rating-70-text': 'Good / Need Communication',
+        'rating-60-text': 'Fair / Worth Trying',
+        'rating-0-text': 'Need Effort / Significant Differences',
+        'disclaimer': 'This tool only calculates objectively based on the provided compatibility table data and does not represent actual relationship outcomes. Please prioritize respect, communication, and growth in real relationships.',
+        'footer-text': 'Compatibility Algorithm Demo · Data Source: User-provided tables (first set non-original image/table parts) · Frontend local calculation only',
+        'table-source': 'Source',
+        'table-raw-score': 'Raw Score',
+        'table-weight': 'Weight',
+        'table-contribution': 'Weighted Contribution',
+        'table-description': 'Description',
+        'no-data': 'No data',
+        'waiting-input': 'Waiting for input',
+        'waiting-zodiac': 'Waiting for zodiac',
+        'please-select-zodiac': 'Please select at least both zodiac signs',
+        'missing-items': 'Missing available items',
+        'not-participated': 'Not participated',
+        'partial-missing': 'Partial missing: normalized by effective weight',
+        'complete-calc': 'Complete calculation',
+        'effective-weight-sum': 'Effective weight sum: ',
+        'female-zodiac': 'Female Zodiac: ',
+        'male-zodiac': 'Male Zodiac: ',
+        'female-blood': 'Female Blood: ',
+        'male-blood': 'Male Blood: ',
+        'female-mbti': 'Female MBTI: ',
+        'male-mbti': 'Male MBTI: ',
+        // 评分等级
+        'excellent': 'Excellent',
+        'very-good': 'Very Good',
+        'good': 'Good',
+        'try': 'Try',
+        'need-effort': 'Need Effort',
+        'page-title': 'Zodiac + Blood Type + MBTI Compatibility Calculator'
+      }
+    };
+
+    const zodiacTranslations = {
+      zh: {
+        '白羊': '白羊座', '金牛': '金牛座', '双子': '双子座', '巨蟹': '巨蟹座',
+        '狮子': '狮子座', '处女': '处女座', '天秤': '天秤座', '天蝎': '天蝎座',
+        '射手': '射手座', '摩羯': '摩羯座', '水瓶': '水瓶座', '双鱼': '双鱼座'
+      },
+      en: {
+        '白羊': 'Aries', '金牛': 'Taurus', '双子': 'Gemini', '巨蟹': 'Cancer',
+        '狮子': 'Leo', '处女': 'Virgo', '天秤': 'Libra', '天蝎': 'Scorpio',
+        '射手': 'Sagittarius', '摩羯': 'Capricorn', '水瓶': 'Aquarius', '双鱼': 'Pisces'
+      }
+    };
+
+    const mbtiLabelTranslations = {
+      zh: {
+        '天生一对': '天生一对',
+        '还不错': '还不错',
+        '还可以': '还可以',
+        '可以试试看': '可以试试看',
+        '要多努力': '要多努力'
+      },
+      en: {
+        '天生一对': 'Perfect Match',
+        '还不错': 'Pretty Good',
+        '还可以': 'Okay',
+        '可以试试看': 'Worth Trying',
+        '要多努力': 'Need More Effort'
+      }
+    };
+
+    function t(key) {
+      return translations[currentLang][key] || key;
+    }
+
+    function updateLanguage() {
+      // 更新HTML lang属性
+      document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
+      
+      // 更新所有带ID的文本元素
+      Object.keys(translations[currentLang]).forEach(key => {
+        const element = document.getElementById(key);
+        if (element) {
+          if (element.tagName === 'INPUT' && element.type === 'button') {
+            element.value = translations[currentLang][key];
+          } else if (element.tagName === 'BUTTON') {
+            element.textContent = translations[currentLang][key];
+          } else if (element.tagName === 'TITLE') {
+            element.textContent = translations[currentLang][key];
+          } else {
+            element.textContent = translations[currentLang][key];
+          }
+        }
+      });
+
+      // 更新语言按钮状态
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('lang' + (currentLang === 'zh' ? 'CN' : 'EN')).classList.add('active');
+      
+      // 更新语言按钮样式
+      const langButtons = document.querySelectorAll('.lang-btn');
+      langButtons.forEach(btn => {
+        if (btn.classList.contains('active')) {
+          btn.style.background = 'var(--accent)';
+          btn.style.color = 'white';
+        } else {
+          btn.style.background = 'var(--panel-alt)';
+          btn.style.color = 'var(--muted)';
+        }
+      });
+
+      // 重新填充选择器选项
+      fillSelectOptions();
+      
+      // 重新渲染结果
+      renderResult();
+    }
+
     // ================= 数据定义（与先前代码逻辑一致） =================
     const zodiacScores = {
       '白羊': { '白羊':80,'金牛':65,'双子':90,'巨蟹':55,'狮子':100,'处女':35,'天秤':60,'天蝎':45,'射手':100,'摩羯':45,'水瓶':90,'双鱼':70 },
@@ -593,18 +790,34 @@
     const form = document.getElementById('form');
     const femaleSignSelect = form.elements['femaleSign'];
     const maleSignSelect = form.elements['maleSign'];
+    const femaleBloodSelect = form.elements['femaleBlood'];
+    const maleBloodSelect = form.elements['maleBlood'];
     const femaleMBTISelect = form.elements['femaleMBTI'];
     const maleMBTISelect = form.elements['maleMBTI'];
 
     function fillSelectOptions(){
+      // 清空现有选项（除了第一个默认选项）
+      [femaleSignSelect, maleSignSelect].forEach(select => {
+        while(select.children.length > 1) {
+          select.removeChild(select.lastChild);
+        }
+        select.children[0].textContent = t('select-zodiac-option');
+      });
+      
+      [femaleBloodSelect, maleBloodSelect, femaleMBTISelect, maleMBTISelect].forEach(select => {
+        if(select.children.length > 0) {
+          select.children[0].textContent = t('optional-option');
+        }
+      });
+
       zodiacNames.forEach(z => {
         const optF = document.createElement('option');
           optF.value = z;
-          optF.textContent = z+'座';
+          optF.textContent = zodiacTranslations[currentLang][z];
           femaleSignSelect.appendChild(optF);
         const optM = document.createElement('option');
           optM.value = z;
-          optM.textContent = z+'座';
+          optM.textContent = zodiacTranslations[currentLang][z];
           maleSignSelect.appendChild(optM);
       });
       mbtiTypes.forEach(t => {
@@ -633,12 +846,12 @@
     const mbtiNum = document.getElementById('mbtiNum');
 
     function classify(score){
-      if(score == null) return { cls:'', text:'等待输入' };
-      if(score >= 90) return { cls:'good', text:'极佳' };
-      if(score >= 80) return { cls:'good', text:'很好' };
-      if(score >= 70) return { cls:'ok', text:'中上' };
-      if(score >= 60) return { cls:'warn', text:'可尝试' };
-      return { cls:'poor', text:'需努力' };
+      if(score == null) return { cls:'', text: t('waiting-input') };
+      if(score >= 90) return { cls:'good', text: t('excellent') };
+      if(score >= 80) return { cls:'good', text: t('very-good') };
+      if(score >= 70) return { cls:'ok', text: t('good') };
+      if(score >= 60) return { cls:'warn', text: t('try') };
+      return { cls:'poor', text: t('need-effort') };
     }
 
     function updateBars(z,b,m){
@@ -666,8 +879,8 @@
       if(!femaleSign || !maleSign){
         scoreValueEl.textContent = '--';
         scoreBadgeEl.className = 'badge';
-        scoreBadgeEl.textContent = '等待星座';
-        detailBody.innerHTML = '<tr><td colspan="5" class="empty">请至少选择双方星座</td></tr>';
+        scoreBadgeEl.textContent = t('waiting-zodiac');
+        detailBody.innerHTML = `<tr><td colspan="5" class="empty">${t('please-select-zodiac')}</td></tr>`;
         noteText.textContent = '';
         pairDisplay.innerHTML = '';
         updateBars(null,null,null);
@@ -688,27 +901,33 @@
         { key:'mbti', label:'MBTI', raw:comp.mbti, w:weights.mbti }
       ];
       entries.forEach(e => {
+        const labelText = currentLang === 'zh' ? e.label : 
+          (e.label === '星座' ? 'Zodiac' : e.label === '血型' ? 'Blood Type' : 'MBTI');
+        
         if(e.raw == null){
           rows.push(`<tr>
-            <td>${e.label}</td>
+            <td>${labelText}</td>
             <td>--</td><td>${(e.w*100).toFixed(0)}%</td>
             <td>--</td>
-            <td style="color:#677887">未参与</td>
+            <td style="color:#677887">${t('not-participated')}</td>
           </tr>`);
         } else {
           const effectiveW = e.w / res.weightSum;
+          const description = e.label==='MBTI'? labelReverse(e.raw): '—';
           rows.push(`<tr>
-            <td>${e.label}</td>
+            <td>${labelText}</td>
             <td>${e.raw}</td>
             <td>${(effectiveW*100).toFixed(1)}%</td>
             <td>${(e.raw*effectiveW).toFixed(2)}</td>
-            <td>${e.label==='MBTI'? labelReverse(e.raw): '—'}</td>
+            <td>${description}</td>
           </tr>`);
         }
       });
       detailBody.innerHTML = rows.join('');
 
-      noteText.textContent = res.note + ' | 有效权重总和：' + res.weightSum.toFixed(2);
+      const notePrefix = res.note === '部分缺失：已按有效权重归一' ? t('partial-missing') : 
+                         res.note === '完整计算' ? t('complete-calc') : res.note;
+      noteText.textContent = notePrefix + ' | ' + t('effective-weight-sum') + res.weightSum.toFixed(2);
 
       // 条形
       updateBars(comp.zodiac, comp.blood, comp.mbti);
@@ -716,12 +935,15 @@
       // 配对概览
       pairDisplay.innerHTML = '';
       const fragments = [];
-      fragments.push(`<span>女方星座：<b class="highlight">${femaleSign}座</b></span>`);
-      fragments.push(`<span>男方星座：<b class="highlight">${maleSign}座</b></span>`);
-      if(femaleBlood) fragments.push(`<span>女血型：${femaleBlood}</span>`);
-      if(maleBlood) fragments.push(`<span>男血型：${maleBlood}</span>`);
-      if(femaleMBTI) fragments.push(`<span>女MBTI：${femaleMBTI}</span>`);
-      if(maleMBTI) fragments.push(`<span>男MBTI：${maleMBTI}</span>`);
+      const femaleZodiacText = zodiacTranslations[currentLang][femaleSign];
+      const maleZodiacText = zodiacTranslations[currentLang][maleSign];
+      
+      fragments.push(`<span>${t('female-zodiac')}<b class="highlight">${femaleZodiacText}</b></span>`);
+      fragments.push(`<span>${t('male-zodiac')}<b class="highlight">${maleZodiacText}</b></span>`);
+      if(femaleBlood) fragments.push(`<span>${t('female-blood')}${femaleBlood}</span>`);
+      if(maleBlood) fragments.push(`<span>${t('male-blood')}${maleBlood}</span>`);
+      if(femaleMBTI) fragments.push(`<span>${t('female-mbti')}${femaleMBTI}</span>`);
+      if(maleMBTI) fragments.push(`<span>${t('male-mbti')}${maleMBTI}</span>`);
       pairDisplay.innerHTML = fragments.join('');
     }
 
@@ -733,7 +955,8 @@
         60:'可以试试看',
         40:'要多努力'
       };
-      return map[score] || '';
+      const zhLabel = map[score] || '';
+      return currentLang === 'zh' ? zhLabel : (mbtiLabelTranslations.en[zhLabel] || '');
     }
 
     // ============ 交互 ===============
@@ -776,6 +999,17 @@
       femaleSignSelect.value = '';
       maleSignSelect.value = '';
       renderResult();
+    });
+
+    // 语言切换
+    document.getElementById('langCN').addEventListener('click', () => {
+      currentLang = 'zh';
+      updateLanguage();
+    });
+
+    document.getElementById('langEN').addEventListener('click', () => {
+      currentLang = 'en';
+      updateLanguage();
     });
 
     // 初始
