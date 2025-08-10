@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>星座 + 血型 + MBTI 综合匹配计算器</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root {
+      --bg:#0f1115;
+      --panel:#1c222b;
+      --panel-alt:#252e39;
+      --accent:#4da3ff;
+      --accent-grad:linear-gradient(135deg,#4da3ff,#7f5dff);
+      --danger:#ff5460;
+      --warn:#ffb347;
+      --ok:#42c98b;
+      --text:#e6edf3;
+      --muted:#92a2b5;
+      --border:#2f3a46;
+      --radius:12px;
+      --radius-sm:6px;
+      font-family: "SF Pro SC","Segoe UI","PingFang SC","Helvetica Neue",Arial,"Microsoft Yahei",sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin:0;
+      background: radial-gradient(circle at 30% 25%, #18202a, #0d1014 70%);
+      color: var(--text);
+      line-height:1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1 {
+      font-size: clamp(1.6rem,2.2vw + 1rem,2.6rem);
+      margin: 0 0 1rem;
+      background: var(--accent-grad);
+      -webkit-background-clip:text;
+      color: transparent;
+    }
+    p.lead {
+      margin-top:0;
+      color: var(--muted);
+      font-size:0.95rem;
+    }
+    a { color: var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+    .grid {
+      display:grid;
+      gap:22px;
+    }
+    @media (min-width: 1150px) {
+      .grid {
+        grid-template-columns: 380px 1fr;
+        align-items: flex-start;
+      }
+    }
+    .card {
+      background: var(--panel);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:20px 22px 26px;
+      position:relative;
+      overflow:hidden;
+    }
+    .card:before {
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 85% -5%, rgba(255,255,255,0.07), transparent 60%),
+        radial-gradient(circle at 0% 105%, rgba(77,163,255,0.08), transparent 70%);
+      pointer-events:none;
+    }
+    .section-title {
+      font-size:1.05rem;
+      letter-spacing:.5px;
+      margin:0 0 12px;
+      font-weight:600;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    form {
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+    fieldset {
+      border:1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding:14px 14px 12px;
+      margin:0;
+      position:relative;
+    }
+    fieldset legend {
+      padding:0 10px;
+      font-size:.8rem;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      background: var(--panel);
+      color: var(--muted);
+    }
+    .group {
+      display:grid;
+      gap:12px 16px;
+    }
+    .cols-2 {
+      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    }
+    .cols-3 {
+      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    }
+    label {
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      font-size:.7rem;
+      letter-spacing:.5px;
+      text-transform:uppercase;
+      color: var(--muted);
+      font-weight:600;
+    }
+    select, input[type=text] {
+      appearance:none;
+      border:1px solid var(--border);
+      background: var(--panel-alt);
+      padding:10px 12px;
+      color: var(--text);
+      font-size:.9rem;
+      border-radius: var(--radius-sm);
+      outline:none;
+      transition:.2s border, .2s background;
+    }
+    select:focus, input[type=text]:focus {
+      border-color: var(--accent);
+      background:#2d3947;
+    }
+    .inline-label {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:.75rem;
+      color:var(--muted);
+    }
+    button {
+      cursor:pointer;
+      font-size:.95rem;
+      border:none;
+      border-radius: var(--radius-sm);
+      padding:12px 18px;
+      font-weight:600;
+      letter-spacing:.5px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      color:#fff;
+      background: var(--accent-grad);
+      position:relative;
+      overflow:hidden;
+    }
+    button.secondary {
+      background:#34404d;
+    }
+    button:hover {
+      filter:brightness(1.07);
+    }
+    button:active {
+      transform:translateY(2px);
+    }
+    .btn-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:4px;
+    }
+    .score-panel {
+      display:grid;
+      gap:18px;
+    }
+    .score-box {
+      background: var(--panel);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:18px 20px 22px;
+      display:grid;
+      gap:14px;
+    }
+    .score-main {
+      display:flex;
+      flex-wrap:wrap;
+      align-items:baseline;
+      gap:16px;
+    }
+    .score-value {
+      font-size: clamp(2.4rem, 3.5vw + 1rem, 4rem);
+      font-weight:600;
+      line-height:1;
+      background: var(--accent-grad);
+      -webkit-background-clip:text;
+      color:transparent;
+      position:relative;
+    }
+    .badge {
+      font-size:.7rem;
+      padding:4px 10px 5px;
+      border-radius:50px;
+      background:#324252;
+      color:var(--muted);
+      letter-spacing:.5px;
+      font-weight:600;
+      text-transform:uppercase;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+    .badge.ok { background:linear-gradient(135deg,#1f513b,#1b6931); color:#5ce0a2;}
+    .badge.good { background:linear-gradient(135deg,#214366,#27527a); color:#6dc9ff;}
+    .badge.warn { background:linear-gradient(135deg,#5b3b09,#6d470d); color:#ffcf6d;}
+    .badge.poor { background:linear-gradient(135deg,#5a1b22,#6d242c); color:#ff8590;}
+    table {
+      width:100%;
+      border-collapse:collapse;
+      font-size:.85rem;
+    }
+    th, td {
+      padding:8px 10px;
+      text-align:left;
+      border-bottom:1px solid #2a343f;
+      vertical-align:top;
+    }
+    th {
+      font-weight:600;
+      color:var(--muted);
+      font-size:.7rem;
+      letter-spacing:.5px;
+      text-transform:uppercase;
+    }
+    tr:last-child td { border-bottom:none; }
+    .dim {
+      color: var(--muted);
+      font-size:.75rem;
+    }
+    .mini-grid {
+      display:grid;
+      gap:10px;
+      grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+      margin-top:4px;
+    }
+    .chip {
+      background:#2a343f;
+      padding:6px 10px 7px;
+      border-radius:40px;
+      font-size:.65rem;
+      letter-spacing:.5px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      color:var(--muted);
+    }
+    footer {
+      margin-top:60px;
+      text-align:center;
+      font-size:.65rem;
+      color:#4d5c6c;
+    }
+    .fade-in {
+      animation: fade .5s ease;
+    }
+    @keyframes fade {
+      from { opacity:0; transform:translateY(8px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+    .empty {
+      padding:26px 12px;
+      text-align:center;
+      font-size:.85rem;
+      color:var(--muted);
+    }
+    .bar-wrap {
+      height:8px;
+      border-radius:6px;
+      background:#2a333d;
+      overflow:hidden;
+      position:relative;
+    }
+    .bar {
+      position:absolute;
+      inset:0;
+      width:0;
+      background:var(--accent-grad);
+      transition: width .6s cubic-bezier(.65,.05,.36,1);
+    }
+    .bar.zodiac { background:linear-gradient(90deg,#ff9d4d,#ffce4d); }
+    .bar.blood { background:linear-gradient(90deg,#4da3ff,#5d72ff); }
+    .bar.mbti { background:linear-gradient(90deg,#42c98b,#31a06a); }
+    .weight-line {
+      display:flex;
+      justify-content:space-between;
+      font-size:.6rem;
+      letter-spacing:.5px;
+      margin-top:4px;
+      color:var(--muted);
+    }
+    .pair-display {
+      font-size:.9rem;
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:-4px;
+    }
+    .pair-display span {
+      background:#23313e;
+      padding:6px 10px 7px;
+      border-radius:8px;
+      font-size:.75rem;
+      letter-spacing:.5px;
+      color:#9fb1c3;
+    }
+    .highlight { color:#fff; font-weight:600; }
+    .notice {
+      font-size:.65rem;
+      color:#657889;
+      line-height:1.4;
+      background:#1b252e;
+      padding:10px 12px;
+      border-radius: var(--radius-sm);
+      border:1px solid #24323e;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>星座 · 血型 · MBTI 综合匹配</h1>
+      <p class="lead">基于提供的第一套星座配对表、血型配对表与 MBTI 文字矩阵（非“原图 / 原表”部分），按权重：星座 0.4 + 血型 0.2 + MBTI 0.4 计算综合匹配分（0~100）。缺失项自动按剩余权重归一。</p>
+    </header>
+
+    <div class="grid">
+      <!-- 左侧输入 -->
+      <div class="card">
+        <h2 class="section-title">输入参数</h2>
+        <form id="form">
+          <fieldset>
+            <legend>女方</legend>
+            <div class="group cols-3">
+              <label>
+                星座
+                <select name="femaleSign" required>
+                  <option value="">选择星座</option>
+                </select>
+              </label>
+              <label>
+                血型
+                <select name="femaleBlood">
+                  <option value="">(可选)</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="O">O</option>
+                  <option value="AB">AB</option>
+                </select>
+              </label>
+              <label>
+                MBTI
+                <select name="femaleMBTI">
+                  <option value="">(可选)</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>男方</legend>
+            <div class="group cols-3">
+              <label>
+                星座
+                <select name="maleSign" required>
+                  <option value="">选择星座</option>
+                </select>
+              </label>
+              <label>
+                血型
+                <select name="maleBlood">
+                  <option value="">(可选)</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="O">O</option>
+                  <option value="AB">AB</option>
+                </select>
+              </label>
+              <label>
+                MBTI
+                <select name="maleMBTI">
+                  <option value="">(可选)</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>选项</legend>
+            <div class="group">
+              <div class="inline-label">
+                <input type="checkbox" id="autoUpdate" checked />
+                <label for="autoUpdate" style="margin:0; font-size:.7rem; cursor:pointer;">实时计算</label>
+              </div>
+              <div class="notice">
+                提示：星座为必填。若仅填星座，评分按 0.4 / 0.4 规则中实际有效权重自动归一。可逐步添加血型、MBTI 观察变化。
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="btn-row">
+            <button type="button" id="calcBtn">计算</button>
+            <button type="button" class="secondary" id="randomBtn">随机示例</button>
+            <button type="button" class="secondary" id="clearBtn">清空</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- 右侧结果 -->
+      <div class="score-panel">
+        <div class="score-box" id="resultBox">
+          <div class="score-main">
+            <div class="score-value" id="scoreValue">--</div>
+            <div id="scoreBadge" class="badge">等待输入</div>
+          </div>
+          <div class="pair-display" id="pairDisplay"></div>
+          <div id="bars">
+            <div>
+              <div class="weight-line"><span>星座</span><span id="zodiacNum">--</span></div>
+              <div class="bar-wrap"><div class="bar zodiac" id="barZodiac"></div></div>
+            </div>
+            <div>
+              <div class="weight-line"><span>血型</span><span id="bloodNum">--</span></div>
+              <div class="bar-wrap"><div class="bar blood" id="barBlood"></div></div>
+            </div>
+            <div>
+              <div class="weight-line"><span>MBTI</span><span id="mbtiNum">--</span></div>
+              <div class="bar-wrap"><div class="bar mbti" id="barMBTI"></div></div>
+            </div>
+          </div>
+
+          <table id="detailTable">
+            <thead>
+              <tr>
+                <th>来源</th>
+                <th>原始分</th>
+                <th>权重</th>
+                <th>加权贡献</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody id="detailBody">
+              <tr><td colspan="5" class="empty">暂无数据</td></tr>
+            </tbody>
+          </table>
+          <div class="dim" id="noteText"></div>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">评分等级</h2>
+          <div class="mini-grid">
+            <div class="chip"><strong style="color:#ffffff">90~100</strong> 极佳 / 天生一对</div>
+            <div class="chip"><strong style="color:#6dc9ff">80~89</strong> 很好 / 稳定向上</div>
+            <div class="chip"><strong style="color:#5ce0a2">70~79</strong> 中上 / 需沟通巩固</div>
+            <div class="chip"><strong style="color:#ffcf6d">60~69</strong> 尚可 / 可试试看</div>
+            <div class="chip"><strong style="color:#ff8590">0~59</strong> 需努力 / 差异较大</div>
+          </div>
+          <p class="dim" style="margin-top:12px;">
+            本工具仅基于提供的配对表格数据客观计算，不代表真实关系走向。实际相处请以尊重、沟通、成长为核心。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      综合匹配算法演示 · 数据来源：用户提供的表格（第一套非原图/原表部分） · 前端纯本地计算
+    </footer>
+  </div>
+
+  <script>
+    // ================= 数据定义（与先前代码逻辑一致） =================
+    const zodiacScores = {
+      '白羊': { '白羊':80,'金牛':65,'双子':90,'巨蟹':55,'狮子':100,'处女':35,'天秤':60,'天蝎':45,'射手':100,'摩羯':45,'水瓶':90,'双鱼':70 },
+      '金牛': { '白羊':75,'金牛':80,'双子':65,'巨蟹':90,'狮子':55,'处女':100,'天秤':35,'天蝎':60,'射手':45,'摩羯':100,'水瓶':45,'双鱼':90 },
+      '双子': { '白羊':90,'金牛':75,'双子':80,'巨蟹':65,'狮子':90,'处女':55,'天秤':100,'天蝎':35,'射手':60,'摩羯':45,'水瓶':100,'双鱼':45 },
+      '巨蟹': { '白羊':45,'金牛':90,'双子':75,'巨蟹':80,'狮子':65,'处女':90,'天秤':55,'天蝎':100,'射手':35,'摩羯':60,'水瓶':45,'双鱼':100 },
+      '狮子': { '白羊':100,'金牛':45,'双子':90,'巨蟹':70,'狮子':80,'处女':65,'天秤':90,'天蝎':55,'射手':100,'摩羯':35,'水瓶':60,'双鱼':45 },
+      '处女': { '白羊':45,'金牛':100,'双子':45,'巨蟹':90,'狮子':75,'处女':80,'天秤':65,'天蝎':90,'射手':55,'摩羯':100,'水瓶':35,'双鱼':60 },
+      '天秤': { '白羊':60,'金牛':45,'双子':100,'巨蟹':45,'狮子':90,'处女':75,'天秤':80,'天蝎':65,'射手':90,'摩羯':55,'水瓶':100,'双鱼':35 },
+      '天蝎': { '白羊':35,'金牛':60,'双子':45,'巨蟹':100,'狮子':45,'处女':90,'天秤':75,'天蝎':80,'射手':65,'摩羯':90,'水瓶':55,'双鱼':100 },
+      '射手': { '白羊':100,'金牛':35,'双子':60,'巨蟹':45,'狮子':100,'处女':45,'天秤':90,'天蝎':70,'射手':80,'摩羯':65,'水瓶':90,'双鱼':55 },
+      '摩羯': { '白羊':55,'金牛':100,'双子':35,'巨蟹':60,'狮子':45,'处女':100,'天秤':45,'天蝎':90,'射手':75,'摩羯':80,'水瓶':65,'双鱼':90 },
+      '水瓶': { '白羊':90,'金牛':55,'双子':100,'巨蟹':35,'狮子':60,'处女':45,'天秤':100,'天蝎':45,'射手':90,'摩羯':75,'水瓶':80,'双鱼':65 },
+      '双鱼': { '白羊':65,'金牛':90,'双子':55,'巨蟹':100,'狮子':35,'处女':60,'天秤':45,'天蝎':100,'射手':45,'摩羯':90,'水瓶':75,'双鱼':80 }
+    };
+    const zodiacNames = Object.keys(zodiacScores);
+    const bloodTypeScores = {
+      'A': { 'A':70,'B':20,'O':95,'AB':65 },
+      'B': { 'A':25,'B':65,'O':75,'AB':65 },
+      'O': { 'A':90,'B':80,'O':40,'AB':30 },
+      'AB':{ 'A':50,'B':85,'O':35,'AB':90 }
+    };
+    const mbtiLabelScore = {
+      '天生一对':100,
+      '还不错':90,
+      '还可以':70,
+      '可以试试看':60,
+      '要多努力':40
+    };
+    const mbtiTypes = ['INFP','ENFP','INFJ','ENFJ','INTJ','ENTJ','INTP','ENTP','ISFP','ESFP','ISTP','ESTP','ISFJ','ESFJ','ISTJ','ESTJ'];
+    const mbtiRows = {
+      'INFP': ['还不错','还不错','还不错','天生一对','还不错','天生一对','还不错','还不错','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力'],
+      'ENFP': ['还不错','还不错','天生一对','还不错','天生一对','还不错','还不错','还不错','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力'],
+      'INFJ': ['还不错','天生一对','还不错','还不错','还不错','还不错','还不错','天生一对','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力'],
+      'ENFJ': ['天生一对','还不错','还不错','还不错','还不错','还不错','还不错','还不错','天生一对','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力','要多努力'],
+      'INTJ': ['还不错','天生一对','还不错','还不错','还不错','还不错','还不错','天生一对','还可以','还可以','还可以','还可以','可以试试看','可以试试看','可以试试看','可以试试看'],
+      'ENTJ': ['天生一对','还不错','还不错','还不错','还不错','还不错','天生一对','还不错','还可以','还可以','还可以','还可以','还可以','还可以','还可以','还可以'],
+      'INTP': ['还不错','还不错','还不错','还不错','还不错','天生一对','还不错','还不错','还可以','还可以','还可以','还可以','可以试试看','可以试试看','可以试试看','天生一对'],
+      'ENTP': ['还不错','还不错','天生一对','还不错','天生一对','还不错','还不错','还不错','还可以','还可以','还可以','还可以','可以试试看','可以试试看','可以试试看','可以试试看'],
+      'ISFP': ['要多努力','要多努力','要多努力','天生一对','还可以','还可以','还可以','还可以','可以试试看','可以试试看','可以试试看','可以试试看','还可以','天生一对','还可以','天生一对'],
+      'ESFP': ['要多努力','要多努力','要多努力','要多努力','还可以','还可以','还可以','还可以','可以试试看','可以试试看','可以试试看','可以试试看','天生一对','还可以','天生一对','还可以'],
+      'ISTP': ['要多努力','要多努力','要多努力','要多努力','还可以','还可以','还可以','还可以','可以试试看','可以试试看','可以试试看','可以试试看','还可以','天生一对','还可以','天生一对'],
+      'ESTP': ['要多努力','要多努力','要多努力','要多努力','还可以','还可以','还可以','还可以','可以试试看','可以试试看','可以试试看','可以试试看','天生一对','还可以','天生一对','还可以'],
+      'ISFJ': ['要多努力','要多努力','要多努力','要多努力','可以试试看','还可以','可以试试看','可以试试看','还可以','天生一对','还可以','天生一对','还不错','还不错','还不错','还不错'],
+      'ESFJ': ['要多努力','要多努力','要多努力','要多努力','可以试试看','还可以','可以试试看','可以试试看','天生一对','还可以','天生一对','还可以','还不错','还不错','还不错','还不错'],
+      'ISTJ': ['要多努力','要多努力','要多努力','要多努力','可以试试看','还可以','可以试试看','可以试试看','还可以','天生一对','还可以','天生一对','还不错','还不错','还不错','还不错'],
+      'ESTJ': ['要多努力','要多努力','要多努力','要多努力','可以试试看','还可以','天生一对','可以试试看','天生一对','还可以','天生一对','还可以','还不错','还不错','还不错','还不错']
+    };
+    const mbtiScores = {};
+    mbtiTypes.forEach(f => {
+      mbtiScores[f] = {};
+      mbtiRows[f].forEach((label,i) => {
+        mbtiScores[f][mbtiTypes[i]] = mbtiLabelScore[label.trim()] ?? null;
+      });
+    });
+
+    const weights = { zodiac:0.4, blood:0.2, mbti:0.4 };
+
+    function normalizeSign(name){
+      return name.replace(/座$/,'').trim();
+    }
+    function getZodiacScore(femaleSign, maleSign){
+      if(!femaleSign || !maleSign) return null;
+      const f = normalizeSign(femaleSign);
+      const m = normalizeSign(maleSign);
+      return (zodiacScores[f] && zodiacScores[f][m] != null) ? zodiacScores[f][m] : null;
+    }
+    function getBloodScore(femaleBlood, maleBlood){
+      if(!femaleBlood || !maleBlood) return null;
+      const f = femaleBlood.toUpperCase();
+      const m = maleBlood.toUpperCase();
+      return (bloodTypeScores[f] && bloodTypeScores[f][m] != null) ? bloodTypeScores[f][m] : null;
+    }
+    function getMBTIScore(femaleMBTI, maleMBTI){
+      if(!femaleMBTI || !maleMBTI) return null;
+      const f = femaleMBTI.toUpperCase();
+      const m = maleMBTI.toUpperCase();
+      return (mbtiScores[f] && mbtiScores[f][m] != null) ? mbtiScores[f][m] : null;
+    }
+    function calcCompatibility(params){
+      const { femaleSign, maleSign, femaleBlood, maleBlood, femaleMBTI, maleMBTI } = params;
+      const z = getZodiacScore(femaleSign, maleSign);
+      const b = getBloodScore(femaleBlood, maleBlood);
+      const m = getMBTIScore(femaleMBTI, maleMBTI);
+      const present = [];
+      if(z!=null) present.push('zodiac');
+      if(b!=null) present.push('blood');
+      if(m!=null) present.push('mbti');
+      if(!present.length) {
+        return {
+          score:null,
+          components:{zodiac:z,blood:b,mbti:m},
+          weightSum:0,
+          note:'缺少可用项'
+        };
+      }
+      const weightSum = present.reduce((acc,k)=>acc+weights[k],0);
+      const total = ((z!=null?z*weights.zodiac:0)+(b!=null?b*weights.blood:0)+(m!=null?m*weights.mbti:0)) / weightSum;
+      return {
+        score:+total.toFixed(2),
+        components:{zodiac:z,blood:b,mbti:m},
+          weightSum,
+          note: weightSum < 1 ? '部分缺失：已按有效权重归一' : '完整计算'
+      };
+    }
+
+    // ================== UI 构建 ==================
+    const form = document.getElementById('form');
+    const femaleSignSelect = form.elements['femaleSign'];
+    const maleSignSelect = form.elements['maleSign'];
+    const femaleMBTISelect = form.elements['femaleMBTI'];
+    const maleMBTISelect = form.elements['maleMBTI'];
+
+    function fillSelectOptions(){
+      zodiacNames.forEach(z => {
+        const optF = document.createElement('option');
+          optF.value = z;
+          optF.textContent = z+'座';
+          femaleSignSelect.appendChild(optF);
+        const optM = document.createElement('option');
+          optM.value = z;
+          optM.textContent = z+'座';
+          maleSignSelect.appendChild(optM);
+      });
+      mbtiTypes.forEach(t => {
+        const of = document.createElement('option');
+        of.value = t;
+        of.textContent = t;
+        femaleMBTISelect.appendChild(of);
+        const om = document.createElement('option');
+        om.value = t;
+        om.textContent = t;
+        maleMBTISelect.appendChild(om);
+      });
+    }
+    fillSelectOptions();
+
+    const scoreValueEl = document.getElementById('scoreValue');
+    const scoreBadgeEl = document.getElementById('scoreBadge');
+    const detailBody = document.getElementById('detailBody');
+    const noteText = document.getElementById('noteText');
+    const pairDisplay = document.getElementById('pairDisplay');
+    const barZodiac = document.getElementById('barZodiac');
+    const barBlood = document.getElementById('barBlood');
+    const barMBTI = document.getElementById('barMBTI');
+    const zodiacNum = document.getElementById('zodiacNum');
+    const bloodNum = document.getElementById('bloodNum');
+    const mbtiNum = document.getElementById('mbtiNum');
+
+    function classify(score){
+      if(score == null) return { cls:'', text:'等待输入' };
+      if(score >= 90) return { cls:'good', text:'极佳' };
+      if(score >= 80) return { cls:'good', text:'很好' };
+      if(score >= 70) return { cls:'ok', text:'中上' };
+      if(score >= 60) return { cls:'warn', text:'可尝试' };
+      return { cls:'poor', text:'需努力' };
+    }
+
+    function updateBars(z,b,m){
+      function setBar(bar, val){
+        bar.style.width = val == null ? '0%' : (val + '%');
+      }
+      setBar(barZodiac, z);
+      setBar(barBlood, b);
+      setBar(barMBTI, m);
+      zodiacNum.textContent = z == null ? '--' : z.toFixed(0);
+      bloodNum.textContent = b == null ? '--' : b.toFixed(0);
+      mbtiNum.textContent = m == null ? '--' : m.toFixed(0);
+    }
+
+    function renderResult(){
+      const femaleSign = femaleSignSelect.value;
+      const maleSign = maleSignSelect.value;
+      const femaleBlood = form.elements['femaleBlood'].value;
+      const maleBlood = form.elements['maleBlood'].value;
+      const femaleMBTI = form.elements['femaleMBTI'].value;
+      const maleMBTI = form.elements['maleMBTI'].value;
+
+      const res = calcCompatibility({ femaleSign, maleSign, femaleBlood, maleBlood, femaleMBTI, maleMBTI });
+
+      if(!femaleSign || !maleSign){
+        scoreValueEl.textContent = '--';
+        scoreBadgeEl.className = 'badge';
+        scoreBadgeEl.textContent = '等待星座';
+        detailBody.innerHTML = '<tr><td colspan="5" class="empty">请至少选择双方星座</td></tr>';
+        noteText.textContent = '';
+        pairDisplay.innerHTML = '';
+        updateBars(null,null,null);
+        return;
+      }
+
+      scoreValueEl.textContent = res.score != null ? res.score : '--';
+      const cls = classify(res.score);
+      scoreBadgeEl.className = 'badge ' + (cls.cls || '');
+      scoreBadgeEl.textContent = cls.text;
+
+      // 细节行
+      const rows = [];
+      const comp = res.components;
+      const entries = [
+        { key:'zodiac', label:'星座', raw:comp.zodiac, w:weights.zodiac },
+        { key:'blood', label:'血型', raw:comp.blood, w:weights.blood },
+        { key:'mbti', label:'MBTI', raw:comp.mbti, w:weights.mbti }
+      ];
+      entries.forEach(e => {
+        if(e.raw == null){
+          rows.push(`<tr>
+            <td>${e.label}</td>
+            <td>--</td><td>${(e.w*100).toFixed(0)}%</td>
+            <td>--</td>
+            <td style="color:#677887">未参与</td>
+          </tr>`);
+        } else {
+          const effectiveW = e.w / res.weightSum;
+          rows.push(`<tr>
+            <td>${e.label}</td>
+            <td>${e.raw}</td>
+            <td>${(effectiveW*100).toFixed(1)}%</td>
+            <td>${(e.raw*effectiveW).toFixed(2)}</td>
+            <td>${e.label==='MBTI'? labelReverse(e.raw): '—'}</td>
+          </tr>`);
+        }
+      });
+      detailBody.innerHTML = rows.join('');
+
+      noteText.textContent = res.note + ' | 有效权重总和：' + res.weightSum.toFixed(2);
+
+      // 条形
+      updateBars(comp.zodiac, comp.blood, comp.mbti);
+
+      // 配对概览
+      pairDisplay.innerHTML = '';
+      const fragments = [];
+      fragments.push(`<span>女方星座：<b class="highlight">${femaleSign}座</b></span>`);
+      fragments.push(`<span>男方星座：<b class="highlight">${maleSign}座</b></span>`);
+      if(femaleBlood) fragments.push(`<span>女血型：${femaleBlood}</span>`);
+      if(maleBlood) fragments.push(`<span>男血型：${maleBlood}</span>`);
+      if(femaleMBTI) fragments.push(`<span>女MBTI：${femaleMBTI}</span>`);
+      if(maleMBTI) fragments.push(`<span>男MBTI：${maleMBTI}</span>`);
+      pairDisplay.innerHTML = fragments.join('');
+    }
+
+    function labelReverse(score){
+      const map = {
+        100:'天生一对',
+        90:'还不错',
+        70:'还可以',
+        60:'可以试试看',
+        40:'要多努力'
+      };
+      return map[score] || '';
+    }
+
+    // ============ 交互 ===============
+    const calcBtn = document.getElementById('calcBtn');
+    const randomBtn = document.getElementById('randomBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const autoUpdate = document.getElementById('autoUpdate');
+
+    calcBtn.addEventListener('click', () => {
+      renderResult();
+    });
+
+    form.addEventListener('input', () => {
+      if(autoUpdate.checked) renderResult();
+    });
+
+    randomBtn.addEventListener('click', () => {
+      function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+      femaleSignSelect.value = pick(zodiacNames);
+      maleSignSelect.value = pick(zodiacNames);
+      if(Math.random() < 0.8){
+        form.elements['femaleBlood'].value = pick(['A','B','O','AB']);
+        form.elements['maleBlood'].value = pick(['A','B','O','AB']);
+      } else {
+        form.elements['femaleBlood'].value = '';
+        form.elements['maleBlood'].value = '';
+      }
+      if(Math.random() < 0.85){
+        form.elements['femaleMBTI'].value = pick(mbtiTypes);
+        form.elements['maleMBTI'].value = pick(mbtiTypes);
+      } else {
+        form.elements['femaleMBTI'].value = '';
+        form.elements['maleMBTI'].value = '';
+      }
+      renderResult();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      form.reset();
+      femaleSignSelect.value = '';
+      maleSignSelect.value = '';
+      renderResult();
+    });
+
+    // 初始
+    renderResult();
+  </script>
+</body>
+</html>
