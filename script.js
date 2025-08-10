@@ -1,61 +1,400 @@
+// 多语言数据
+const translations = {
+    zh: {
+        subtitle: "依恋关系测评",
+        "welcome-title": "发现你的依恋风格",
+        "welcome-subtitle": "基于科学的ECR-R量表，帮你了解在亲密关系中的真实自己",
+        "feature1-title": "科学专业",
+        "feature1-desc": "基于国际认可的ECR-R量表",
+        "feature2-title": "深度分析", 
+        "feature2-desc": "准确识别你的依恋风格",
+        "feature3-title": "精准匹配",
+        "feature3-desc": "为你找到最合适的伴侣",
+        "test-info-title": "测评说明",
+        "test-info-1": "测评包含36个问题，大约需要5-8分钟",
+        "test-info-2": "请根据你的真实感受回答，没有对错之分",
+        "test-info-3": "测评结果将帮助你更好地理解自己的关系模式",
+        "test-info-4": "所有信息严格保密，仅用于科学研究",
+        "start-btn": "开始测评",
+        "prev-btn": "上一页",
+        "next-btn": "下一页",
+        "view-results": "查看结果",
+        "result-title": "你的依恋风格",
+        "anxiety-label": "依恋焦虑",
+        "avoidance-label": "依恋回避",
+        "share-btn": "分享结果",
+        "retake-btn": "重新测评",
+        optionLabels: [
+            "强烈不同意",
+            "不同意", 
+            "有些不同意",
+            "既不同意也不反对",
+            "有些同意",
+            "同意",
+            "强烈同意"
+        ],
+        attachmentStyles: {
+            secure: {
+                type: '安全型依恋',
+                description: {
+                    title: '安全型依恋 (Secure Attachment)',
+                    content: `
+                        <p>恭喜你！你展现出了安全型依恋的特征。这是最健康的依恋风格，约有50%的成年人具有这种依恋模式。</p>
+                        
+                        <h4>你的特征：</h4>
+                        <p>• 对自己和他人都持积极看法<br>
+                        • 相信自己值得被爱，同时信任他人<br>
+                        • 能够有效沟通情感需求<br>
+                        • 在亲密与独立之间保持健康平衡<br>
+                        • 善于处理关系中的冲突</p>
+                        
+                        <h4>在恋爱关系中：</h4>
+                        <p>你通常能建立稳定、满意的关系。你既能享受亲密，也能给予伴侣空间。你的沟通能力和情感稳定性使你成为理想的伴侣。</p>
+                        
+                        <h4>建议：</h4>
+                        <p>继续保持这种健康的关系模式，同时保持对伴侣不同依恋风格的理解和包容。</p>
+                    `
+                }
+            },
+            anxious: {
+                type: '焦虑型依恋',
+                description: {
+                    title: '焦虑型依恋 (Anxious Attachment)',
+                    content: `
+                        <p>你的依恋风格显示出焦虑型的特征。这意味着你在关系中可能会体验到较多的不安全感，但同时你也是一个非常投入和关爱的伴侣。</p>
+                        
+                        <h4>你的特征：</h4>
+                        <p>• 强烈渴望亲密关系<br>
+                        • 对被抛弃有深度恐惧<br>
+                        • 需要频繁的确认和安慰<br>
+                        • 对伴侣的行为高度敏感<br>
+                        • 容易将中性信号解释为拒绝</p>
+                        
+                        <h4>在恋爱关系中：</h4>
+                        <p>你可能会过度担心关系的稳定性，需要伴侣的经常确认。你的深情和投入是优势，但有时可能会让伴侣感到压力。</p>
+                        
+                        <h4>建议：</h4>
+                        <p>• 学习自我安抚技巧<br>
+                        • 练习直接而冷静的沟通<br>
+                        • 培养独立的兴趣和友谊<br>
+                        • 寻找能提供稳定性的伴侣</p>
+                    `
+                }
+            },
+            avoidant: {
+                type: '回避型依恋',
+                description: {
+                    title: '回避型依恋 (Avoidant Attachment)',
+                    content: `
+                        <p>你展现出回避型依恋的特征。你重视独立性和自主性，在关系中倾向于保持一定的情感距离。</p>
+                        
+                        <h4>你的特征：</h4>
+                        <p>• 强调自我依赖和独立性<br>
+                        • 在关系中保持情感距离<br>
+                        • 避免过度的亲密<br>
+                        • 难以表达情感需求<br>
+                        • 通过其他活动避免深度情感投入</p>
+                        
+                        <h4>在恋爱关系中：</h4>
+                        <p>你可能会觉得过度的亲密令人不适，倾向于通过工作或兴趣爱好来维持独立感。你的自立能力是优势，但有时可能让伴侣感到被拒绝。</p>
+                        
+                        <h4>建议：</h4>
+                        <p>• 练习识别和表达情感<br>
+                        • 逐步增加情感分享<br>
+                        • 理解亲密不等于失去自我<br>
+                        • 寻找尊重你独立性的伴侣</p>
+                    `
+                }
+            },
+            disorganized: {
+                type: '混乱型依恋',
+                description: {
+                    title: '混乱型依恋 (Disorganized/Fearful-Avoidant)',
+                    content: `
+                        <p>你的依恋风格显示出混乱型的特征。这种风格结合了焦虑和回避的元素，你既渴望亲密关系又恐惧被伤害。</p>
+                        
+                        <h4>你的特征：</h4>
+                        <p>• 对自己和他人都持消极看法<br>
+                        • 既渴望亲密又恐惧被伤害<br>
+                        • 在关系中表现出矛盾行为<br>
+                        • 在寻求和逃避亲密之间摇摆<br>
+                        • 难以预测自己的情感反应</p>
+                        
+                        <h4>在恋爱关系中：</h4>
+                        <p>你可能会体验到复杂和矛盾的情感。一方面渴望深度连接，另一方面又害怕被伤害而保持距离。这可能导致关系中的不稳定模式。</p>
+                        
+                        <h4>建议：</h4>
+                        <p>• 考虑寻求专业心理咨询<br>
+                        • 学习情绪调节技巧<br>
+                        • 培养自我认知和反思能力<br>
+                        • 在关系中保持耐心和理解<br>
+                        • 寻找能提供稳定支持的伴侣</p>
+                    `
+                }
+            }
+        }
+    },
+    en: {
+        subtitle: "Attachment Style Assessment",
+        "welcome-title": "Discover Your Attachment Style",
+        "welcome-subtitle": "Based on the scientific ECR-R scale, helping you understand your true self in intimate relationships",
+        "feature1-title": "Scientific & Professional",
+        "feature1-desc": "Based on the internationally recognized ECR-R scale",
+        "feature2-title": "In-depth Analysis", 
+        "feature2-desc": "Accurately identify your attachment style",
+        "feature3-title": "Precise Matching",
+        "feature3-desc": "Find the most suitable partner for you",
+        "test-info-title": "Assessment Instructions",
+        "test-info-1": "The assessment contains 36 questions and takes about 5-8 minutes",
+        "test-info-2": "Please answer based on your true feelings, there are no right or wrong answers",
+        "test-info-3": "The assessment results will help you better understand your relationship patterns",
+        "test-info-4": "All information is strictly confidential and used only for scientific research",
+        "start-btn": "Start Assessment",
+        "prev-btn": "Previous",
+        "next-btn": "Next",
+        "view-results": "View Results",
+        "result-title": "Your Attachment Style",
+        "anxiety-label": "Attachment Anxiety",
+        "avoidance-label": "Attachment Avoidance",
+        "share-btn": "Share Results",
+        "retake-btn": "Retake Assessment",
+        optionLabels: [
+            "Strongly Disagree",
+            "Disagree", 
+            "Somewhat Disagree",
+            "Neither Agree nor Disagree",
+            "Somewhat Agree",
+            "Agree",
+            "Strongly Agree"
+        ],
+        attachmentStyles: {
+            secure: {
+                type: 'Secure Attachment',
+                description: {
+                    title: 'Secure Attachment',
+                    content: `
+                        <p>Congratulations! You display characteristics of secure attachment. This is the healthiest attachment style, found in about 50% of adults.</p>
+                        
+                        <h4>Your characteristics:</h4>
+                        <p>• Hold positive views of both self and others<br>
+                        • Believe you are worthy of love and trust others<br>
+                        • Communicate emotional needs effectively<br>
+                        • Maintain healthy balance between intimacy and independence<br>
+                        • Handle relationship conflicts well</p>
+                        
+                        <h4>In romantic relationships:</h4>
+                        <p>You typically build stable, satisfying relationships. You can enjoy intimacy while giving your partner space. Your communication skills and emotional stability make you an ideal partner.</p>
+                        
+                        <h4>Suggestions:</h4>
+                        <p>Continue maintaining this healthy relationship pattern while staying understanding and tolerant of partners with different attachment styles.</p>
+                    `
+                }
+            },
+            anxious: {
+                type: 'Anxious Attachment',
+                description: {
+                    title: 'Anxious Attachment',
+                    content: `
+                        <p>Your attachment style shows anxious characteristics. This means you may experience more insecurity in relationships, but you are also a very devoted and caring partner.</p>
+                        
+                        <h4>Your characteristics:</h4>
+                        <p>• Strong desire for intimate relationships<br>
+                        • Deep fear of abandonment<br>
+                        • Need frequent reassurance and comfort<br>
+                        • Highly sensitive to partner's behavior<br>
+                        • Tend to interpret neutral signals as rejection</p>
+                        
+                        <h4>In romantic relationships:</h4>
+                        <p>You may worry excessively about relationship stability and need frequent confirmation from your partner. Your deep affection and commitment are strengths, but sometimes may pressure your partner.</p>
+                        
+                        <h4>Suggestions:</h4>
+                        <p>• Learn self-soothing techniques<br>
+                        • Practice direct and calm communication<br>
+                        • Develop independent interests and friendships<br>
+                        • Seek partners who can provide stability</p>
+                    `
+                }
+            },
+            avoidant: {
+                type: 'Avoidant Attachment',
+                description: {
+                    title: 'Avoidant Attachment',
+                    content: `
+                        <p>You display avoidant attachment characteristics. You value independence and autonomy, and tend to maintain emotional distance in relationships.</p>
+                        
+                        <h4>Your characteristics:</h4>
+                        <p>• Emphasize self-reliance and independence<br>
+                        • Maintain emotional distance in relationships<br>
+                        • Avoid excessive intimacy<br>
+                        • Difficulty expressing emotional needs<br>
+                        • Use other activities to avoid deep emotional investment</p>
+                        
+                        <h4>In romantic relationships:</h4>
+                        <p>You may find excessive intimacy uncomfortable and tend to maintain independence through work or hobbies. Your self-reliance is a strength, but sometimes may make your partner feel rejected.</p>
+                        
+                        <h4>Suggestions:</h4>
+                        <p>• Practice identifying and expressing emotions<br>
+                        • Gradually increase emotional sharing<br>
+                        • Understand that intimacy doesn't equal losing yourself<br>
+                        • Seek partners who respect your independence</p>
+                    `
+                }
+            },
+            disorganized: {
+                type: 'Disorganized/Fearful-Avoidant Attachment',
+                description: {
+                    title: 'Disorganized/Fearful-Avoidant Attachment',
+                    content: `
+                        <p>Your attachment style shows disorganized characteristics. This style combines elements of both anxiety and avoidance - you both crave intimate relationships and fear being hurt.</p>
+                        
+                        <h4>Your characteristics:</h4>
+                        <p>• Hold negative views of both self and others<br>
+                        • Both desire intimacy and fear being hurt<br>
+                        • Display contradictory behaviors in relationships<br>
+                        • Fluctuate between seeking and avoiding intimacy<br>
+                        • Difficulty predicting your own emotional reactions</p>
+                        
+                        <h4>In romantic relationships:</h4>
+                        <p>You may experience complex and contradictory emotions. On one hand, you crave deep connection, but on the other, you fear being hurt and maintain distance. This can lead to unstable relationship patterns.</p>
+                        
+                        <h4>Suggestions:</h4>
+                        <p>• Consider seeking professional counseling<br>
+                        • Learn emotion regulation techniques<br>
+                        • Develop self-awareness and reflection skills<br>
+                        • Maintain patience and understanding in relationships<br>
+                        • Seek partners who can provide stable support</p>
+                    `
+                }
+            }
+        }
+    }
+};
+
+// 当前语言
+let currentLanguage = 'zh';
+
 // 问卷数据
 const questionnaire = {
-    anxiety: [
-        "我经常担心我的伴侣并不像我爱他们那样爱我。",
-        "我害怕一旦别人真正了解我，就不会喜欢我了。",
-        "我担心被独自留下。",
-        "我经常担心我的伴侣会离开我。",
-        "我经常希望我的伴侣对我的感情能像我对他们的感情一样强烈。",
-        "我担心我不能像其他人那样吸引浪漫伴侣。",
-        "当我的伴侣不在身边时，我担心他们可能会对别人产生兴趣。",
-        "当我表现出我的感情时，我害怕伴侣不会有同样的感受。",
-        "我很少担心我的伴侣会离开我。", // 反向题
-        "我的浪漫伴侣让我怀疑自己。",
-        "我不经常担心被抛弃。", // 反向题
-        "我发现别人不愿意像我希望的那样亲近。",
-        "有时我觉得我强迫伴侣表现出更多的感情和承诺。",
-        "我担心当我需要某人时，没有人会在那里。",
-        "当伴侣不赞成我做的某件事时，我感觉很糟糕。",
-        "我害怕我的伴侣对我的感情没有我对他们的感情那么深。",
-        "当我的伴侣不在时，我会想很多关于我们关系的事情。",
-        "我的渴望被亲近有时会把人吓跑。"
-    ],
-    avoidance: [
-        "我更愿意不向浪漫伴侣表达我的感受。",
-        "我发现很难依赖浪漫伴侣。",
-        "我不喜欢向浪漫伴侣敞开心扉。",
-        "我更愿意不表现出我对浪漫伴侣的感受。",
-        "我发现很难让自己依赖浪漫伴侣。",
-        "我不经常担心被抛弃。",
-        "当浪漫伴侣想要与我非常亲近时，我会感到有些不舒服。",
-        "我告诉我的伴侣几乎所有事情。", // 反向题
-        "我发现向浪漫伴侣敞开心扉相对容易。", // 反向题
-        "当我需要某人时，我经常担心没有人会在那里。",
-        "我想要与浪漫伴侣非常亲近，但我发现自己会退缩。",
-        "我不介意向浪漫伴侣寻求安慰、建议或帮助。", // 反向题
-        "当浪漫伴侣太依赖我时，我会感到不舒服。",
-        "我向我的伴侣表达我的需求和感受。", // 反向题
-        "我发现很容易依赖浪漫伴侣。", // 反向题
-        "我发现很难接受来自浪漫伴侣的帮助。",
-        "我的伴侣只在我想要的时候才真正了解我。",
-        "我告诉我的伴侣我对他们的需要。" // 反向题
-    ],
+    zh: {
+        anxiety: [
+            "我经常担心我的伴侣并不像我爱他们那样爱我。",
+            "我害怕一旦别人真正了解我，就不会喜欢我了。",
+            "我担心被独自留下。",
+            "我经常担心我的伴侣会离开我。",
+            "我经常希望我的伴侣对我的感情能像我对他们的感情一样强烈。",
+            "我担心我不能像其他人那样吸引浪漫伴侣。",
+            "当我的伴侣不在身边时，我担心他们可能会对别人产生兴趣。",
+            "当我表现出我的感情时，我害怕伴侣不会有同样的感受。",
+            "我很少担心我的伴侣会离开我。", // 反向题
+            "我的浪漫伴侣让我怀疑自己。",
+            "我不经常担心被抛弃。", // 反向题
+            "我发现别人不愿意像我希望的那样亲近。",
+            "有时我觉得我强迫伴侣表现出更多的感情和承诺。",
+            "我担心当我需要某人时，没有人会在那里。",
+            "当伴侣不赞成我做的某件事时，我感觉很糟糕。",
+            "我害怕我的伴侣对我的感情没有我对他们的感情那么深。",
+            "当我的伴侣不在时，我会想很多关于我们关系的事情。",
+            "我的渴望被亲近有时会把人吓跑。"
+        ],
+        avoidance: [
+            "我更愿意不向浪漫伴侣表达我的感受。",
+            "我发现很难依赖浪漫伴侣。",
+            "我不喜欢向浪漫伴侣敞开心扉。",
+            "我更愿意不表现出我对浪漫伴侣的感受。",
+            "我发现很难让自己依赖浪漫伴侣。",
+            "我不经常担心被抛弃。",
+            "当浪漫伴侣想要与我非常亲近时，我会感到有些不舒服。",
+            "我告诉我的伴侣几乎所有事情。", // 反向题
+            "我发现向浪漫伴侣敞开心扉相对容易。", // 反向题
+            "当我需要某人时，我经常担心没有人会在那里。",
+            "我想要与浪漫伴侣非常亲近，但我发现自己会退缩。",
+            "我不介意向浪漫伴侣寻求安慰、建议或帮助。", // 反向题
+            "当浪漫伴侣太依赖我时，我会感到不舒服。",
+            "我向我的伴侣表达我的需求和感受。", // 反向题
+            "我发现很容易依赖浪漫伴侣。", // 反向题
+            "我发现很难接受来自浪漫伴侣的帮助。",
+            "我的伴侣只在我想要的时候才真正了解我。",
+            "我告诉我的伴侣我对他们的需要。" // 反向题
+        ]
+    },
+    en: {
+        anxiety: [
+            "I often worry that my partner doesn't love me as much as I love them.",
+            "I fear that once people really get to know me, they won't like me.",
+            "I worry about being left alone.",
+            "I often worry that my partner will leave me.",
+            "I often wish my partner's feelings for me were as strong as my feelings for them.",
+            "I worry that I won't be able to attract romantic partners as well as others do.",
+            "When my partner is away, I worry they might become interested in someone else.",
+            "When I show my feelings, I'm afraid my partner won't feel the same way.",
+            "I rarely worry that my partner will leave me.", // reverse
+            "My romantic partner makes me doubt myself.",
+            "I don't often worry about being abandoned.", // reverse
+            "I find that people don't want to get as close as I would like.",
+            "Sometimes I feel like I force my partner to show more feelings and commitment.",
+            "I worry that when I need someone, no one will be there.",
+            "When my partner disapproves of something I do, I feel terrible.",
+            "I'm afraid my partner doesn't have feelings for me as deep as mine for them.",
+            "When my partner is away, I think a lot about our relationship.",
+            "My desire to be very close sometimes scares people away."
+        ],
+        avoidance: [
+            "I prefer not to show how I feel deep down to my romantic partner.",
+            "I find it difficult to depend on romantic partners.",
+            "I don't like opening up to romantic partners.",
+            "I prefer not to show my partner how I feel deep down.",
+            "I find it difficult to allow myself to depend on romantic partners.",
+            "I don't often worry about being abandoned.",
+            "I get uncomfortable when a romantic partner wants to be very close.",
+            "I tell my partner just about everything.", // reverse
+            "I find it relatively easy to open up to romantic partners.", // reverse
+            "I often worry that no one will be there when I need them.",
+            "I want to get very close to my romantic partner, but I keep pulling back.",
+            "I don't mind asking my romantic partner for comfort, advice, or help.", // reverse
+            "I get frustrated when romantic partners are not available when I need them.",
+            "I help my partner work through their difficult feelings.", // reverse
+            "I find it easy to depend on romantic partners.", // reverse
+            "I find it difficult to accept help from my romantic partners.",
+            "My partner only seems to notice me when I'm angry.",
+            "I tell my partner when I need them." // reverse
+        ]
+    },
     reverseItems: {
         anxiety: [8, 10], // 对应索引 8 和 10 (A9, A11)
         avoidance: [7, 8, 11, 13, 14, 17] // 对应索引 7, 8, 11, 13, 14, 17 (B8, B9, B12, B14, B15, B18)
     }
 };
 
-// 选项标签
-const optionLabels = [
-    "强烈不同意",
-    "不同意", 
-    "有些不同意",
-    "既不同意也不反对",
-    "有些同意",
-    "同意",
-    "强烈同意"
-];
+// 语言切换函数
+function setLanguage(lang) {
+    currentLanguage = lang;
+    
+    // 更新语言按钮状态
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+    
+    // 更新页面文本
+    updatePageText();
+    
+    // 如果在问卷页面，重新显示当前页
+    if (document.getElementById('questionnaire-page').classList.contains('active')) {
+        displayCurrentPage();
+    }
+}
+
+// 更新页面文本
+function updatePageText() {
+    const currentLang = translations[currentLanguage];
+    
+    document.querySelectorAll('[data-lang]').forEach(element => {
+        const key = element.getAttribute('data-lang');
+        if (currentLang[key]) {
+            element.textContent = currentLang[key];
+        }
+    });
+}
 
 // 全局变量
 let currentPage = 0;
@@ -67,16 +406,18 @@ function initializeQuestionnaire() {
     // 混合焦虑和回避题目
     currentQuestions = [];
     
+    const currentQuestionnaire = questionnaire[currentLanguage];
+    
     // 创建包含题目、类型和原始索引的对象数组
     for (let i = 0; i < 18; i++) {
         currentQuestions.push({
-            text: questionnaire.anxiety[i],
+            text: currentQuestionnaire.anxiety[i],
             type: 'anxiety',
             originalIndex: i,
             id: `A${i + 1}`
         });
         currentQuestions.push({
-            text: questionnaire.avoidance[i],
+            text: currentQuestionnaire.avoidance[i],
             type: 'avoidance', 
             originalIndex: i,
             id: `B${i + 1}`
@@ -127,10 +468,11 @@ function displayCurrentPage() {
         
         for (let i = 0; i < 7; i++) {
             const isSelected = responses[question.id] === (i + 1);
+            const currentOptionLabels = translations[currentLanguage].optionLabels;
             html += `
                 <div class="option-item ${isSelected ? 'selected' : ''}" onclick="selectOption('${question.id}', ${i + 1})">
                     <input type="radio" name="${question.id}" value="${i + 1}" ${isSelected ? 'checked' : ''}>
-                    <label class="option-label">${optionLabels[i]}</label>
+                    <label class="option-label">${currentOptionLabels[i]}</label>
                 </div>
             `;
         }
@@ -194,10 +536,10 @@ function updateNavigationButtons() {
     // 检查是否是最后一页
     const totalPages = Math.ceil(currentQuestions.length / 6);
     if (currentPage === totalPages - 1) {
-        nextBtn.textContent = '查看结果';
+        nextBtn.textContent = translations[currentLanguage]['view-results'];
         nextBtn.onclick = calculateResults;
     } else {
-        nextBtn.textContent = '下一页';
+        nextBtn.textContent = translations[currentLanguage]['next-btn'];
         nextBtn.onclick = nextPage;
     }
 }
@@ -258,108 +600,16 @@ function calculateResults() {
 
 // 确定依恋风格
 function determineAttachmentStyle(anxiety, avoidance) {
+    const styles = translations[currentLanguage].attachmentStyles;
+    
     if (anxiety < 4.0 && avoidance < 4.0) {
-        return {
-            type: '安全型依恋',
-            description: {
-                title: '安全型依恋 (Secure Attachment)',
-                content: `
-                    <p>恭喜你！你展现出了安全型依恋的特征。这是最健康的依恋风格，约有50%的成年人具有这种依恋模式。</p>
-                    
-                    <h4>你的特征：</h4>
-                    <p>• 对自己和他人都持积极看法<br>
-                    • 相信自己值得被爱，同时信任他人<br>
-                    • 能够有效沟通情感需求<br>
-                    • 在亲密与独立之间保持健康平衡<br>
-                    • 善于处理关系中的冲突</p>
-                    
-                    <h4>在恋爱关系中：</h4>
-                    <p>你通常能建立稳定、满意的关系。你既能享受亲密，也能给予伴侣空间。你的沟通能力和情感稳定性使你成为理想的伴侣。</p>
-                    
-                    <h4>建议：</h4>
-                    <p>继续保持这种健康的关系模式，同时保持对伴侣不同依恋风格的理解和包容。</p>
-                `
-            }
-        };
+        return styles.secure;
     } else if (anxiety >= 4.0 && avoidance < 4.0) {
-        return {
-            type: '焦虑型依恋',
-            description: {
-                title: '焦虑型依恋 (Anxious Attachment)',
-                content: `
-                    <p>你的依恋风格显示出焦虑型的特征。这意味着你在关系中可能会体验到较多的不安全感，但同时你也是一个非常投入和关爱的伴侣。</p>
-                    
-                    <h4>你的特征：</h4>
-                    <p>• 强烈渴望亲密关系<br>
-                    • 对被抛弃有深度恐惧<br>
-                    • 需要频繁的确认和安慰<br>
-                    • 对伴侣的行为高度敏感<br>
-                    • 容易将中性信号解释为拒绝</p>
-                    
-                    <h4>在恋爱关系中：</h4>
-                    <p>你可能会过度担心关系的稳定性，需要伴侣的经常确认。你的深情和投入是优势，但有时可能会让伴侣感到压力。</p>
-                    
-                    <h4>建议：</h4>
-                    <p>• 学习自我安抚技巧<br>
-                    • 练习直接而冷静的沟通<br>
-                    • 培养独立的兴趣和友谊<br>
-                    • 寻找能提供稳定性的伴侣</p>
-                `
-            }
-        };
+        return styles.anxious;
     } else if (anxiety < 4.0 && avoidance >= 4.0) {
-        return {
-            type: '回避型依恋',
-            description: {
-                title: '回避型依恋 (Avoidant Attachment)',
-                content: `
-                    <p>你展现出回避型依恋的特征。你重视独立性和自主性，在关系中倾向于保持一定的情感距离。</p>
-                    
-                    <h4>你的特征：</h4>
-                    <p>• 强调自我依赖和独立性<br>
-                    • 在关系中保持情感距离<br>
-                    • 避免过度的亲密<br>
-                    • 难以表达情感需求<br>
-                    • 通过其他活动避免深度情感投入</p>
-                    
-                    <h4>在恋爱关系中：</h4>
-                    <p>你可能会觉得过度的亲密令人不适，倾向于通过工作或兴趣爱好来维持独立感。你的自立能力是优势，但有时可能让伴侣感到被拒绝。</p>
-                    
-                    <h4>建议：</h4>
-                    <p>• 练习识别和表达情感<br>
-                    • 逐步增加情感分享<br>
-                    • 理解亲密不等于失去自我<br>
-                    • 寻找尊重你独立性的伴侣</p>
-                `
-            }
-        };
+        return styles.avoidant;
     } else {
-        return {
-            type: '混乱型依恋',
-            description: {
-                title: '混乱型依恋 (Disorganized/Fearful-Avoidant)',
-                content: `
-                    <p>你的依恋风格显示出混乱型的特征。这种风格结合了焦虑和回避的元素，你既渴望亲密关系又恐惧被伤害。</p>
-                    
-                    <h4>你的特征：</h4>
-                    <p>• 对自己和他人都持消极看法<br>
-                    • 既渴望亲密又恐惧被伤害<br>
-                    • 在关系中表现出矛盾行为<br>
-                    • 在寻求和逃避亲密之间摇摆<br>
-                    • 难以预测自己的情感反应</p>
-                    
-                    <h4>在恋爱关系中：</h4>
-                    <p>你可能会体验到复杂和矛盾的情感。一方面渴望深度连接，另一方面又害怕被伤害而保持距离。这可能导致关系中的不稳定模式。</p>
-                    
-                    <h4>建议：</h4>
-                    <p>• 考虑寻求专业心理咨询<br>
-                    • 学习情绪调节技巧<br>
-                    • 培养自我认知和反思能力<br>
-                    • 在关系中保持耐心和理解<br>
-                    • 寻找能提供稳定支持的伴侣</p>
-                `
-            }
-        };
+        return styles.disorganized;
     }
 }
 
@@ -396,20 +646,31 @@ function shareResult() {
     const anxietyScore = document.getElementById('anxiety-score-value').textContent;
     const avoidanceScore = document.getElementById('avoidance-score-value').textContent;
     
-    const shareText = `我刚完成了mingming依恋关系测评！\n我的依恋风格是：${attachmentType}\n依恋焦虑：${anxietyScore}\n依恋回避：${avoidanceScore}\n\n来测测你的依恋风格吧！`;
+    let shareText, title, copyMessage, errorMessage;
+    if (currentLanguage === 'zh') {
+        shareText = `我刚完成了mingming依恋关系测评！\n我的依恋风格是：${attachmentType}\n依恋焦虑：${anxietyScore}\n依恋回避：${avoidanceScore}\n\n来测测你的依恋风格吧！`;
+        title = 'mingming 依恋关系测评结果';
+        copyMessage = '结果已复制到剪贴板！';
+        errorMessage = '分享功能暂不可用，请手动复制结果。';
+    } else {
+        shareText = `I just completed the mingming Attachment Style Assessment!\nMy attachment style is: ${attachmentType}\nAttachment Anxiety: ${anxietyScore}\nAttachment Avoidance: ${avoidanceScore}\n\nTake the test to discover your attachment style!`;
+        title = 'mingming Attachment Style Assessment Results';
+        copyMessage = 'Results copied to clipboard!';
+        errorMessage = 'Share feature not available, please copy the results manually.';
+    }
     
     if (navigator.share) {
         navigator.share({
-            title: 'mingming 依恋关系测评结果',
+            title: title,
             text: shareText,
             url: window.location.href
         });
     } else {
         // 降级处理：复制到剪贴板
         navigator.clipboard.writeText(shareText).then(() => {
-            alert('结果已复制到剪贴板！');
+            alert(copyMessage);
         }).catch(() => {
-            alert('分享功能暂不可用，请手动复制结果。');
+            alert(errorMessage);
         });
     }
 }
@@ -430,4 +691,7 @@ function retakeTest() {
 document.addEventListener('DOMContentLoaded', function() {
     // 确保欢迎页面是活动的
     document.getElementById('welcome-page').classList.add('active');
+    
+    // 初始化语言设置
+    updatePageText();
 });
