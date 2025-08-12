@@ -188,6 +188,21 @@ body {
     font-weight: 600;
 }
 
+.rating-explanation {
+    background: #e8f4f8;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #2c5aa0;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.rating-explanation::before {
+    content: "📊";
+    color: #2c5aa0;
+}
+
 /* 开始按钮 */
 .start-btn {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -260,6 +275,32 @@ body {
     color: #333;
     margin-bottom: 20px;
     line-height: 1.5;
+    position: relative;
+}
+
+.question-number {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-right: 12px;
+    min-width: 45px;
+    text-align: center;
+}
+
+.reverse-indicator {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #ff6b6b;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    cursor: help;
 }
 
 .options-container {
@@ -289,9 +330,28 @@ body {
 }
 
 .option-item input[type="radio"] {
-    margin-right: 15px;
+    margin-right: 10px;
     transform: scale(1.2);
     accent-color: #667eea;
+}
+
+.option-number {
+    display: inline-block;
+    background: #e9ecef;
+    color: #666;
+    padding: 4px 8px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-right: 12px;
+    min-width: 24px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.option-item.selected .option-number {
+    background: #667eea;
+    color: white;
 }
 
 .option-label {
@@ -489,6 +549,36 @@ body {
     color: white;
 }
 
+/* 版权信息 */
+.copyright-footer {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.copyright-link {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.9);
+    color: #667eea;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.copyright-link:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     .container {
@@ -539,6 +629,13 @@ body {
     
     .progress-text {
         text-align: center;
+    }
+    
+    .copyright-footer {
+        position: static;
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px;
     }
 }
 

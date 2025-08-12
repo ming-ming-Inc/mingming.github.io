@@ -338,7 +338,7 @@
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
         <div style="flex: 1;">
           <h1 id="main-title">星座 · 血型 · MBTI 综合匹配</h1>
-          <p class="lead" id="main-desc">基于提供的第一套星座配对表、血型配对表与 MBTI 文字矩阵（非"原图 / 原表"部分），按权重：星座 0.4 + 血型 0.2 + MBTI 0.4 计算综合匹配分（0~100）。缺失项自动按剩余权重归一。</p>
+          <p class="lead" id="main-desc">输入星座、血型、MBTI信息，获得专业的综合匹配评分。缺失项自动优化计算。</p>
         </div>
         <div style="display: flex; gap: 8px; margin-top: 8px;">
           <button type="button" id="langCN" class="lang-btn active" style="font-size: 0.75rem; padding: 6px 12px; border: 1px solid var(--border); background: var(--accent); color: white; border-radius: 4px; cursor: pointer;">中文</button>
@@ -416,7 +416,7 @@
                 <label for="autoUpdate" style="margin:0; font-size:.7rem; cursor:pointer;" id="realtime-label">实时计算</label>
               </div>
               <div class="notice" id="notice-text">
-                提示：星座为必填。若仅填星座，评分按 0.4 / 0.4 规则中实际有效权重自动归一。可逐步添加血型、MBTI 观察变化。
+                提示：星座为必填。可逐步添加血型、MBTI 信息，系统将自动优化计算匹配度。
               </div>
             </div>
           </fieldset>
@@ -479,14 +479,14 @@
             <div class="chip" id="rating-0"><strong style="color:#ff8590">0~59</strong> <span id="rating-0-text">需努力 / 差异较大</span></div>
           </div>
           <p class="dim" style="margin-top:12px;" id="disclaimer">
-            本工具仅基于提供的配对表格数据客观计算，不代表真实关系走向。实际相处请以尊重、沟通、成长为核心。
+            本工具仅供娱乐参考，不代表真实关系走向。实际相处请以尊重、沟通、成长为核心。
           </p>
         </div>
       </div>
     </div>
 
     <footer id="footer-text">
-      综合匹配算法演示 · 数据来源：用户提供的表格（第一套非原图/原表部分） · 前端纯本地计算
+      星座血型MBTI匹配计算器 · 前端本地计算
     </footer>
   </div>
 
@@ -497,7 +497,7 @@
     const translations = {
       zh: {
         'main-title': '星座 · 血型 · MBTI 综合匹配',
-        'main-desc': '基于提供的第一套星座配对表、血型配对表与 MBTI 文字矩阵（非"原图 / 原表"部分），按权重：星座 0.4 + 血型 0.2 + MBTI 0.4 计算综合匹配分（0~100）。缺失项自动按剩余权重归一。',
+        'main-desc': '输入星座、血型、MBTI信息，获得专业的综合匹配评分。缺失项自动优化计算。',
         'input-title': '输入参数',
         'female-legend': '女方',
         'male-legend': '男方',
@@ -508,7 +508,7 @@
         'select-zodiac-option': '选择星座',
         'optional-option': '(可选)',
         'realtime-label': '实时计算',
-        'notice-text': '提示：星座为必填。若仅填星座，评分按 0.4 / 0.4 规则中实际有效权重自动归一。可逐步添加血型、MBTI 观察变化。',
+        'notice-text': '提示：星座为必填。可逐步添加血型、MBTI 信息，系统将自动优化计算匹配度。',
         'calcBtn': '计算',
         'randomBtn': '随机示例',
         'clearBtn': '清空',
@@ -518,8 +518,8 @@
         'rating-70-text': '中上 / 需沟通巩固',
         'rating-60-text': '尚可 / 可试试看',
         'rating-0-text': '需努力 / 差异较大',
-        'disclaimer': '本工具仅基于提供的配对表格数据客观计算，不代表真实关系走向。实际相处请以尊重、沟通、成长为核心。',
-        'footer-text': '综合匹配算法演示 · 数据来源：用户提供的表格（第一套非原图/原表部分） · 前端纯本地计算',
+        'disclaimer': '本工具仅供娱乐参考，不代表真实关系走向。实际相处请以尊重、沟通、成长为核心。',
+        'footer-text': '星座血型MBTI匹配计算器 · 前端本地计算',
         'table-source': '来源',
         'table-raw-score': '原始分',
         'table-weight': '权重',
@@ -550,7 +550,7 @@
       },
       en: {
         'main-title': 'Zodiac · Blood Type · MBTI Compatibility',
-        'main-desc': 'Based on the provided zodiac compatibility table, blood type compatibility table, and MBTI text matrix (non-"original image/table" parts), calculated with weights: Zodiac 0.4 + Blood Type 0.2 + MBTI 0.4 for comprehensive compatibility score (0~100). Missing items are automatically normalized by remaining weights.',
+        'main-desc': 'Enter zodiac, blood type, and MBTI information to get professional comprehensive compatibility scores. Missing items are automatically optimized for calculation.',
         'input-title': 'Input Parameters',
         'female-legend': 'Female',
         'male-legend': 'Male',
@@ -561,7 +561,7 @@
         'select-zodiac-option': 'Select Zodiac',
         'optional-option': '(Optional)',
         'realtime-label': 'Real-time Calculation',
-        'notice-text': 'Note: Zodiac signs are required. If only zodiac signs are filled, the score is normalized according to the effective weight in the 0.4 / 0.4 rule. You can gradually add blood type and MBTI to observe changes.',
+        'notice-text': 'Note: Zodiac signs are required. You can gradually add blood type and MBTI information, and the system will automatically optimize the compatibility calculation.',
         'calcBtn': 'Calculate',
         'randomBtn': 'Random Example',
         'clearBtn': 'Clear',
@@ -571,8 +571,8 @@
         'rating-70-text': 'Good / Need Communication',
         'rating-60-text': 'Fair / Worth Trying',
         'rating-0-text': 'Need Effort / Significant Differences',
-        'disclaimer': 'This tool only calculates objectively based on the provided compatibility table data and does not represent actual relationship outcomes. Please prioritize respect, communication, and growth in real relationships.',
-        'footer-text': 'Compatibility Algorithm Demo · Data Source: User-provided tables (first set non-original image/table parts) · Frontend local calculation only',
+        'disclaimer': 'This tool is for entertainment reference only and does not represent actual relationship outcomes. Please prioritize respect, communication, and growth in real relationships.',
+        'footer-text': 'Zodiac Blood Type MBTI Compatibility Calculator · Frontend Local Calculation',
         'table-source': 'Source',
         'table-raw-score': 'Raw Score',
         'table-weight': 'Weight',

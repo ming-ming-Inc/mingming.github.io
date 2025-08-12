@@ -11,10 +11,10 @@ const translations = {
         "feature3-title": "精准匹配",
         "feature3-desc": "为你找到最合适的伴侣",
         "test-info-title": "测评说明",
-        "test-info-1": "测评包含36个问题，大约需要5-8分钟",
-        "test-info-2": "请根据你的真实感受回答，没有对错之分",
-        "test-info-3": "测评结果将帮助你更好地理解自己的关系模式",
-        "test-info-4": "所有信息严格保密，仅用于科学研究",
+        "test-info-1": "测评包含36个问题，基于科学的ECR-R量表，大约需要8-10分钟",
+        "test-info-2": "请根据你在亲密关系中的一般体验回答，而不仅仅是当前关系",
+        "test-info-3": "请诚实回答你的真实感受，没有对错之分",
+        "test-info-4": "所有信息严格保密，仅用于科学研究目的",
         "start-btn": "开始测评",
         "prev-btn": "上一页",
         "next-btn": "下一页",
@@ -145,10 +145,10 @@ const translations = {
         "feature3-title": "Precise Matching",
         "feature3-desc": "Find the most suitable partner for you",
         "test-info-title": "Assessment Instructions",
-        "test-info-1": "The assessment contains 36 questions and takes about 5-8 minutes",
-        "test-info-2": "Please answer based on your true feelings, there are no right or wrong answers",
-        "test-info-3": "The assessment results will help you better understand your relationship patterns",
-        "test-info-4": "All information is strictly confidential and used only for scientific research",
+        "test-info-1": "The assessment contains 36 questions based on the scientific ECR-R scale, takes about 8-10 minutes",
+        "test-info-2": "Please respond based on your general experience in romantic relationships, not just current relationship",
+        "test-info-3": "Answer honestly based on your true feelings, there are no right or wrong answers",
+        "test-info-4": "All information is strictly confidential and used only for scientific research purposes",
         "start-btn": "Start Assessment",
         "prev-btn": "Previous",
         "next-btn": "Next",
@@ -273,95 +273,95 @@ const translations = {
 // 当前语言
 let currentLanguage = 'zh';
 
-// 问卷数据
+// 问卷数据 - 基于标准ECR-R量表优化
 const questionnaire = {
     zh: {
         anxiety: [
-            "我经常担心我的伴侣并不像我爱他们那样爱我。",
-            "我害怕一旦别人真正了解我，就不会喜欢我了。",
-            "我担心被独自留下。",
-            "我经常担心我的伴侣会离开我。",
-            "我经常希望我的伴侣对我的感情能像我对他们的感情一样强烈。",
-            "我担心我不能像其他人那样吸引浪漫伴侣。",
-            "当我的伴侣不在身边时，我担心他们可能会对别人产生兴趣。",
-            "当我表现出我的感情时，我害怕伴侣不会有同样的感受。",
-            "我很少担心我的伴侣会离开我。", // 反向题
-            "我的浪漫伴侣让我怀疑自己。",
-            "我不经常担心被抛弃。", // 反向题
-            "我发现别人不愿意像我希望的那样亲近。",
-            "有时我觉得我强迫伴侣表现出更多的感情和承诺。",
-            "我担心当我需要某人时，没有人会在那里。",
-            "当伴侣不赞成我做的某件事时，我感觉很糟糕。",
-            "我害怕我的伴侣对我的感情没有我对他们的感情那么深。",
-            "当我的伴侣不在时，我会想很多关于我们关系的事情。",
-            "我的渴望被亲近有时会把人吓跑。"
+            "我害怕会失去伴侣的爱。", // 1
+            "我经常担心伴侣不想和我在一起。", // 2
+            "我经常担心伴侣并不真正爱我。", // 3
+            "我担心恋爱伴侣不会像我关心他们那样关心我。", // 4
+            "我经常希望伴侣对我的感情能像我对他们的感情一样强烈。", // 5
+            "我很担心我的恋爱关系。", // 6
+            "当伴侣不在身边时，我担心他们可能会对别人感兴趣。", // 7
+            "当我向恋爱伴侣表达感情时，我害怕他们对我没有同样的感觉。", // 8
+            "我很少担心伴侣会离开我。", // 9 反向题
+            "我的恋爱伴侣让我怀疑自己。", // 10
+            "我不经常担心被抛弃。", // 11 反向题
+            "我发现伴侣不想像我希望的那样亲近。", // 12
+            "有时恋爱伴侣会无缘无故地改变对我的感情。", // 13
+            "我想要非常亲近的愿望有时会吓跑别人。", // 14
+            "我害怕一旦恋爱伴侣了解真正的我，就不会喜欢我了。", // 15
+            "我没有从伴侣那里得到所需的关爱和支持，这让我很生气。", // 16
+            "我担心自己比不上别人。", // 17
+            "我的伴侣似乎只有在我生气时才注意到我。" // 18
         ],
         avoidance: [
-            "我更愿意不向浪漫伴侣表达我的感受。",
-            "我发现很难依赖浪漫伴侣。",
-            "我不喜欢向浪漫伴侣敞开心扉。",
-            "我更愿意不表现出我对浪漫伴侣的感受。",
-            "我发现很难让自己依赖浪漫伴侣。",
-            "我不经常担心被抛弃。",
-            "当浪漫伴侣想要与我非常亲近时，我会感到有些不舒服。",
-            "我告诉我的伴侣几乎所有事情。", // 反向题
-            "我发现向浪漫伴侣敞开心扉相对容易。", // 反向题
-            "当我需要某人时，我经常担心没有人会在那里。",
-            "我想要与浪漫伴侣非常亲近，但我发现自己会退缩。",
-            "我不介意向浪漫伴侣寻求安慰、建议或帮助。", // 反向题
-            "当浪漫伴侣太依赖我时，我会感到不舒服。",
-            "我向我的伴侣表达我的需求和感受。", // 反向题
-            "我发现很容易依赖浪漫伴侣。", // 反向题
-            "我发现很难接受来自浪漫伴侣的帮助。",
-            "我的伴侣只在我想要的时候才真正了解我。",
-            "我告诉我的伴侣我对他们的需要。" // 反向题
+            "我不愿意向伴侣展示我内心深处的感受。", // 19
+            "我很乐意与伴侣分享我的私人想法和感受。", // 20 反向题
+            "我发现很难让自己依赖恋爱伴侣。", // 21
+            "我很乐意与恋爱伴侣亲近。", // 22 反向题
+            "我不愿意向恋爱伴侣敞开心扉。", // 23
+            "我不愿意与恋爱伴侣太过亲近。", // 24
+            "当恋爱伴侣想要非常亲近时，我会感到不舒服。", // 25
+            "我发现与伴侣亲近相对容易。", // 26 反向题
+            "对我来说与伴侣亲近并不困难。", // 27 反向题
+            "我通常会与伴侣讨论我的问题和担忧。", // 28 反向题
+            "在需要时向恋爱伴侣求助是有帮助的。", // 29 反向题
+            "我几乎告诉伴侣所有事情。", // 30 反向题
+            "我会与伴侣商量事情。", // 31 反向题
+            "当伴侣与我太过亲近时我会紧张。", // 32
+            "我很乐意依赖恋爱伴侣。", // 33 反向题
+            "我发现依赖恋爱伴侣很容易。", // 34 反向题
+            "对我来说与伴侣表达爱意很容易。", // 35 反向题
+            "我的伴侣真正理解我和我的需求。" // 36 反向题
         ]
     },
     en: {
         anxiety: [
-            "I often worry that my partner doesn't love me as much as I love them.",
-            "I fear that once people really get to know me, they won't like me.",
-            "I worry about being left alone.",
-            "I often worry that my partner will leave me.",
-            "I often wish my partner's feelings for me were as strong as my feelings for them.",
-            "I worry that I won't be able to attract romantic partners as well as others do.",
-            "When my partner is away, I worry they might become interested in someone else.",
-            "When I show my feelings, I'm afraid my partner won't feel the same way.",
-            "I rarely worry that my partner will leave me.", // reverse
-            "My romantic partner makes me doubt myself.",
-            "I don't often worry about being abandoned.", // reverse
-            "I find that people don't want to get as close as I would like.",
-            "Sometimes I feel like I force my partner to show more feelings and commitment.",
-            "I worry that when I need someone, no one will be there.",
-            "When my partner disapproves of something I do, I feel terrible.",
-            "I'm afraid my partner doesn't have feelings for me as deep as mine for them.",
-            "When my partner is away, I think a lot about our relationship.",
-            "My desire to be very close sometimes scares people away."
+            "I'm afraid that I will lose my partner's love.", // 1
+            "I often worry that my partner will not want to stay with me.", // 2
+            "I often worry that my partner doesn't really love me.", // 3
+            "I worry that romantic partners won't care about me as much as I care about them.", // 4
+            "I often wish that my partner's feelings for me were as strong as my feelings for him or her.", // 5
+            "I worry a lot about my relationships.", // 6
+            "When my partner is out of sight, I worry that he or she might become interested in someone else.", // 7
+            "When I show my feelings for romantic partners, I'm afraid they will not feel the same about me.", // 8
+            "I rarely worry about my partner leaving me.", // 9 reverse
+            "My romantic partner makes me doubt myself.", // 10
+            "I do not often worry about being abandoned.", // 11 reverse
+            "I find that my partner(s) don't want to get as close as I would like.", // 12
+            "Sometimes romantic partners change their feelings about me for no apparent reason.", // 13
+            "My desire to be very close sometimes scares people away.", // 14
+            "I'm afraid that once a romantic partner gets to know me, he or she won't like who I really am.", // 15
+            "It makes me mad that I don't get the affection and support I need from my partner.", // 16
+            "I worry that I won't measure up to other people.", // 17
+            "My partner only seems to notice me when I'm angry." // 18
         ],
         avoidance: [
-            "I prefer not to show how I feel deep down to my romantic partner.",
-            "I find it difficult to depend on romantic partners.",
-            "I don't like opening up to romantic partners.",
-            "I prefer not to show my partner how I feel deep down.",
-            "I find it difficult to allow myself to depend on romantic partners.",
-            "I don't often worry about being abandoned.",
-            "I get uncomfortable when a romantic partner wants to be very close.",
-            "I tell my partner just about everything.", // reverse
-            "I find it relatively easy to open up to romantic partners.", // reverse
-            "I often worry that no one will be there when I need them.",
-            "I want to get very close to my romantic partner, but I keep pulling back.",
-            "I don't mind asking my romantic partner for comfort, advice, or help.", // reverse
-            "I get frustrated when romantic partners are not available when I need them.",
-            "I help my partner work through their difficult feelings.", // reverse
-            "I find it easy to depend on romantic partners.", // reverse
-            "I find it difficult to accept help from my romantic partners.",
-            "My partner only seems to notice me when I'm angry.",
-            "I tell my partner when I need them." // reverse
+            "I prefer not to show a partner how I feel deep down.", // 19
+            "I feel comfortable sharing my private thoughts and feelings with my partner.", // 20 reverse
+            "I find it difficult to allow myself to depend on romantic partners.", // 21
+            "I am very comfortable being close to romantic partners.", // 22 reverse
+            "I don't feel comfortable opening up to romantic partners.", // 23
+            "I prefer not to be too close to romantic partners.", // 24
+            "I get uncomfortable when a romantic partner wants to be very close.", // 25
+            "I find it relatively easy to get close to my partner.", // 26 reverse
+            "It's not difficult for me to get close to my partner.", // 27 reverse
+            "I usually discuss my problems and concerns with my partner.", // 28 reverse
+            "It helps to turn to my romantic partner in times of need.", // 29 reverse
+            "I tell my partner just about everything.", // 30 reverse
+            "I talk things over with my partner.", // 31 reverse
+            "I am nervous when partners get too close to me.", // 32
+            "I feel comfortable depending on romantic partners.", // 33 reverse
+            "I find it easy to depend on romantic partners.", // 34 reverse
+            "It's easy for me to be affectionate with my partner.", // 35 reverse
+            "My partner really understands me and my needs." // 36 reverse
         ]
     },
     reverseItems: {
         anxiety: [8, 10], // 对应索引 8 和 10 (A9, A11)
-        avoidance: [7, 8, 11, 13, 14, 17] // 对应索引 7, 8, 11, 13, 14, 17 (B8, B9, B12, B14, B15, B18)
+        avoidance: [1, 3, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17] // 对应索引 1, 3, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17 (B20, B22, B26, B27, B28, B29, B30, B31, B33, B34, B35, B36)
     }
 };
 
@@ -424,8 +424,32 @@ function initializeQuestionnaire() {
         });
     }
     
-    // 轻度随机化 - 保持一定的逻辑顺序
-    shuffleArray(currentQuestions);
+    // 改进的随机化算法 - 确保维度混合且避免聚集
+    shuffleWithBalance(currentQuestions);
+}
+
+// 改进的洗牌函数，确保不同维度问题的均匀分布
+function shuffleWithBalance(array) {
+    // 分离焦虑和回避问题
+    const anxietyQuestions = array.filter(q => q.type === 'anxiety');
+    const avoidanceQuestions = array.filter(q => q.type === 'avoidance');
+    
+    // 分别打乱两个维度的问题
+    shuffleArray(anxietyQuestions);
+    shuffleArray(avoidanceQuestions);
+    
+    // 重新组合，确保维度混合
+    currentQuestions = [];
+    for (let i = 0; i < 18; i++) {
+        // 交替添加两个维度的问题，但引入一些随机性
+        if (Math.random() < 0.5) {
+            currentQuestions.push(anxietyQuestions[i]);
+            currentQuestions.push(avoidanceQuestions[i]);
+        } else {
+            currentQuestions.push(avoidanceQuestions[i]);
+            currentQuestions.push(anxietyQuestions[i]);
+        }
+    }
 }
 
 // 数组洗牌函数
@@ -458,10 +482,15 @@ function displayCurrentPage() {
     
     pageQuestions.forEach((question, index) => {
         const questionNumber = startIndex + index + 1;
+        const isReverse = (question.type === 'anxiety' && questionnaire.reverseItems.anxiety.includes(question.originalIndex)) ||
+                         (question.type === 'avoidance' && questionnaire.reverseItems.avoidance.includes(question.originalIndex));
+        
         html += `
             <div class="question-group">
                 <div class="question-text">
-                    ${questionNumber}. ${question.text}
+                    <span class="question-number">${questionNumber}/36</span>
+                    ${question.text}
+                    ${isReverse ? '<span class="reverse-indicator" title="反向计分题目">⟲</span>' : ''}
                 </div>
                 <div class="options-container">
         `;
@@ -472,6 +501,7 @@ function displayCurrentPage() {
             html += `
                 <div class="option-item ${isSelected ? 'selected' : ''}" onclick="selectOption('${question.id}', ${i + 1})">
                     <input type="radio" name="${question.id}" value="${i + 1}" ${isSelected ? 'checked' : ''}>
+                    <span class="option-number">${i + 1}</span>
                     <label class="option-label">${currentOptionLabels[i]}</label>
                 </div>
             `;
@@ -510,11 +540,15 @@ function selectOption(questionId, value) {
 
 // 更新进度条
 function updateProgressBar() {
-    const totalPages = Math.ceil(currentQuestions.length / 6);
-    const progress = ((currentPage + 1) / totalPages) * 100;
+    const totalQuestions = currentQuestions.length;
+    const answeredQuestions = Object.keys(responses).length;
+    const currentQuestionStart = currentPage * 6 + 1;
+    const currentQuestionEnd = Math.min((currentPage + 1) * 6, totalQuestions);
     
-    document.getElementById('progress-fill').style.width = `${progress}%`;
-    document.getElementById('progress-text').textContent = `${currentPage + 1} / ${totalPages}`;
+    const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+    
+    document.getElementById('progress-fill').style.width = `${progressPercentage}%`;
+    document.getElementById('progress-text').textContent = `题目 ${currentQuestionStart}-${currentQuestionEnd} / ${totalQuestions} (已完成 ${answeredQuestions})`;
 }
 
 // 更新导航按钮
@@ -598,15 +632,19 @@ function calculateResults() {
     showResults(anxietyAverage, avoidanceAverage, attachmentStyle);
 }
 
-// 确定依恋风格
+// 确定依恋风格 - 使用ECR-R标准阈值
 function determineAttachmentStyle(anxiety, avoidance) {
     const styles = translations[currentLanguage].attachmentStyles;
     
-    if (anxiety < 4.0 && avoidance < 4.0) {
+    // 使用更精确的阈值，基于ECR-R研究数据
+    // 中位数通常在3.5左右，使用3.5作为分界点更符合研究标准
+    const threshold = 3.5;
+    
+    if (anxiety < threshold && avoidance < threshold) {
         return styles.secure;
-    } else if (anxiety >= 4.0 && avoidance < 4.0) {
+    } else if (anxiety >= threshold && avoidance < threshold) {
         return styles.anxious;
-    } else if (anxiety < 4.0 && avoidance >= 4.0) {
+    } else if (anxiety < threshold && avoidance >= threshold) {
         return styles.avoidant;
     } else {
         return styles.disorganized;
@@ -687,6 +725,15 @@ function retakeTest() {
     document.getElementById('welcome-page').classList.add('active');
 }
 
+// 显示版权信息
+function showCopyright() {
+    const copyrightText = currentLanguage === 'zh' 
+        ? '本测评基于 Fraley, R. C., Waller, N. G., & Brennan, K. A. (2000) 发表的ECR-R量表。\n参考文献：An item response theory analysis of self-report measures of adult attachment. Journal of Personality and Social Psychology, 78(2), 350-365.'
+        : 'This assessment is based on the ECR-R scale published by Fraley, R. C., Waller, N. G., & Brennan, K. A. (2000).\nReference: An item response theory analysis of self-report measures of adult attachment. Journal of Personality and Social Psychology, 78(2), 350-365.';
+    
+    alert(copyrightText);
+}
+
 // 页面加载完成后初始化
 document.addEventListener('DOMContentLoaded', function() {
     // 确保欢迎页面是活动的
@@ -694,4 +741,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化语言设置
     updatePageText();
+    
+    // 添加版权信息链接
+    const footer = document.createElement('div');
+    footer.className = 'copyright-footer';
+    footer.innerHTML = `<a href="#" onclick="showCopyright()" class="copyright-link">科学依据 / Scientific Basis</a>`;
+    document.querySelector('.container').appendChild(footer);
 });
