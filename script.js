@@ -636,9 +636,7 @@ function calculateResults() {
 function determineAttachmentStyle(anxiety, avoidance) {
     const styles = translations[currentLanguage].attachmentStyles;
     
-    // 使用更精确的阈值，基于ECR-R研究数据
-    // 中位数通常在3.5左右，使用3.5作为分界点更符合研究标准
-    const threshold = 3.5;
+    const threshold = 4;
     
     if (anxiety < threshold && avoidance < threshold) {
         return styles.secure;
