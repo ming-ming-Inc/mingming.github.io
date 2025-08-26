@@ -15,6 +15,9 @@ const translations = {
         "test-info-2": "请根据你在亲密关系中的一般体验回答，而不仅仅是当前关系",
         "test-info-3": "请诚实回答你的真实感受，没有对错之分",
         "test-info-4": "所有信息严格保密，仅用于科学研究目的",
+        "name-input-title": "参与者信息",
+        "name-label": "姓名：",
+        "name-hint": "*必填项，用于结果记录和数据分析",
         "start-btn": "开始测评",
         "prev-btn": "上一页",
         "next-btn": "下一页",
@@ -149,6 +152,9 @@ const translations = {
         "test-info-2": "Please respond based on your general experience in romantic relationships, not just current relationship",
         "test-info-3": "Answer honestly based on your true feelings, there are no right or wrong answers",
         "test-info-4": "All information is strictly confidential and used only for scientific research purposes",
+        "name-input-title": "Participant Information",
+        "name-label": "Name:",
+        "name-hint": "*Required field for result recording and data analysis",
         "start-btn": "Start Assessment",
         "prev-btn": "Previous",
         "next-btn": "Next",
@@ -400,6 +406,41 @@ function updatePageText() {
 let currentPage = 0;
 let responses = {};
 let currentQuestions = [];
+let participantName = '';
+
+// Firebase 配置
+const firebaseConfig = {
+    apiKey: "AIzaSyD80klA2NrRTh1EjEyAIqhvi9ONhlsMGus",
+    authDomain: "mingming-yilian.firebaseapp.com",
+    projectId: "mingming-yilian",
+    storageBucket: "mingming-yilian.firebasestorage.app",
+    messagingSenderId: "570864629829",
+    appId: "1:570864629829:web:35445b16a505bc69588b2c",
+    measurementId: "G-EHCF8JV14R"
+  };
+
+// 初始化 Firebase
+if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+// 验证姓名输入并启用按钮
+function validateNameInput() {
+    const nameInput = document.getElementById('participant-name');
+    const startBtn = document.getElementById('start-test-btn');
+    
+    if (nameInput && startBtn) {
+        if (nameInput.value.trim().length >= 2) {
+            startBtn.disabled = false;
+            startBtn.style.opacity = '1';
+            startBtn.style.cursor = 'pointer';
+        } else {
+            startBtn.disabled = true;
+            startBtn.style.opacity = '0.6';
+            startBtn.style.cursor = 'not-allowed';
+        }
+    }
+}
 
 // 初始化问卷
 function initializeQuestionnaire() {
@@ -462,6 +503,17 @@ function shuffleArray(array) {
 
 // 开始测试
 function startTest() {
+    const nameInput = document.getElementById('participant-name');
+    participantName = nameInput ? nameInput.value.trim() : '';
+    
+    if (participantName.length < 2) {
+        showNotification(
+            currentLanguage === 'zh' ? '请输入您的姓名（至少2个字符）' : 'Please enter your name (at least 2 characters)',
+            'warning'
+        );
+        return;
+    }
+    
     document.getElementById('welcome-page').classList.remove('active');
     document.getElementById('questionnaire-page').classList.add('active');
     
@@ -674,6 +726,36 @@ function showResults(anxiety, avoidance, attachmentStyle) {
         <h3>${attachmentStyle.description.title}</h3>
         ${attachmentStyle.description.content}
     `;
+    
+    // 准备保存到云端的数据
+    const resultData = {
+        timestamp: new Date().toISOString(),
+        participant_name: participantName,
+        anxiety_score: parseFloat(anxiety.toFixed(2)),
+        avoidance_score: parseFloat(avoidance.toFixed(2)),
+        attachment_style: attachmentStyle.type,
+        style_description: attachmentStyle.description.title,
+        language: currentLanguage,
+        responses: responses,
+        created_at: new Date().toLocaleString('zh-CN', {
+            timeZone: 'Asia/Shanghai'
+        })
+    };
+    
+    // 保存测评数据到云端
+    saveTestData(resultData).then(success => {
+        if (success) {
+            showNotification(
+                currentLanguage === 'zh' ? '测评结果已保存到云端' : 'Test results saved to cloud',
+                'success'
+            );
+        } else {
+            showNotification(
+                currentLanguage === 'zh' ? '云端保存失败，数据已保存到本地' : 'Cloud save failed, data saved locally',
+                'warning'
+            );
+        }
+    });
 }
 
 // 分享结果
@@ -721,6 +803,73 @@ function retakeTest() {
     // 显示欢迎页面
     document.getElementById('result-page').classList.remove('active');
     document.getElementById('welcome-page').classList.add('active');
+}
+
+// 云存储功能
+async function saveTestData(data) {
+    // 总是先保存到本地作为备份
+    saveToLocalStorage(data);
+    
+    // 尝试保存到 Firebase
+    try {
+        if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
+            const db = firebase.firestore();
+            await db.collection('attachment_test_results').add(data);
+            console.log('数据成功保存到 Firebase');
+            return true;
+        } else {
+            console.warn('Firebase 未初始化，使用本地存储');
+            return false;
+        }
+    } catch (error) {
+        console.error('Firebase 保存失败:', error);
+        return false;
+    }
+}
+
+// 本地存储作为备份
+function saveToLocalStorage(data) {
+    try {
+        const existingData = JSON.parse(localStorage.getItem('attachmentTestResults') || '[]');
+        
+        existingData.push({
+            ...data,
+            id: Date.now() + Math.random().toString(36).substr(2, 9),
+            local_timestamp: new Date().toISOString(),
+            saved_at: new Date().toLocaleString('zh-CN')
+        });
+        
+        localStorage.setItem('attachmentTestResults', JSON.stringify(existingData));
+        console.log('数据已保存到本地存储');
+        return true;
+    } catch (error) {
+        console.error('本地存储失败:', error);
+        return false;
+    }
+}
+
+// 显示通知提示
+function showNotification(message, type = 'info') {
+    // 创建通知元素
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <span class="notification-icon">
+            ${type === 'success' ? '✅' : type === 'warning' ? '⚠️' : type === 'error' ? '❌' : 'ℹ️'}
+        </span>
+        <span class="notification-message">${message}</span>
+        <button class="notification-close" onclick="this.parentElement.remove()">×</button>
+    `;
+    
+    // 添加到页面
+    document.body.appendChild(notification);
+    
+    // 3秒后自动消失
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 3000);
 }
 
 // 显示版权信息

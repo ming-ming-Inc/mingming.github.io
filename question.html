@@ -57,7 +57,16 @@
                     </ul>
                 </div>
 
-                <button class="start-btn" onclick="startTest()" data-lang="start-btn">开始测评</button>
+                <div class="name-input-section">
+                    <h3 data-lang="name-input-title">参与者信息</h3>
+                    <div class="input-group">
+                        <label for="participant-name" data-lang="name-label">姓名：</label>
+                        <input type="text" id="participant-name" placeholder="请输入您的姓名" maxlength="50" required oninput="validateNameInput()">
+                        <span class="input-hint" data-lang="name-hint">*必填项，用于结果记录和数据分析</span>
+                    </div>
+                </div>
+
+                <button class="start-btn" onclick="startTest()" data-lang="start-btn" disabled id="start-test-btn">开始测评</button>
             </div>
         </div>
 
@@ -120,6 +129,10 @@
         </div>
     </div>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>
