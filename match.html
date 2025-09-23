@@ -221,25 +221,6 @@
     .badge.good { background:linear-gradient(135deg,#214366,#27527a); color:#6dc9ff;}
     .badge.warn { background:linear-gradient(135deg,#5b3b09,#6d470d); color:#ffcf6d;}
     .badge.poor { background:linear-gradient(135deg,#5a1b22,#6d242c); color:#ff8590;}
-    table {
-      width:100%;
-      border-collapse:collapse;
-      font-size:.85rem;
-    }
-    th, td {
-      padding:8px 10px;
-      text-align:left;
-      border-bottom:1px solid #2a343f;
-      vertical-align:top;
-    }
-    th {
-      font-weight:600;
-      color:var(--muted);
-      font-size:.7rem;
-      letter-spacing:.5px;
-      text-transform:uppercase;
-    }
-    tr:last-child td { border-bottom:none; }
     .dim {
       color: var(--muted);
       font-size:.75rem;
@@ -278,31 +259,6 @@
       padding:26px 12px;
       text-align:center;
       font-size:.85rem;
-      color:var(--muted);
-    }
-    .bar-wrap {
-      height:8px;
-      border-radius:6px;
-      background:#2a333d;
-      overflow:hidden;
-      position:relative;
-    }
-    .bar {
-      position:absolute;
-      inset:0;
-      width:0;
-      background:var(--accent-grad);
-      transition: width .6s cubic-bezier(.65,.05,.36,1);
-    }
-    .bar.zodiac { background:linear-gradient(90deg,#ff9d4d,#ffce4d); }
-    .bar.blood { background:linear-gradient(90deg,#4da3ff,#5d72ff); }
-    .bar.mbti { background:linear-gradient(90deg,#42c98b,#31a06a); }
-    .weight-line {
-      display:flex;
-      justify-content:space-between;
-      font-size:.6rem;
-      letter-spacing:.5px;
-      margin-top:4px;
       color:var(--muted);
     }
     .pair-display {
@@ -449,36 +405,7 @@
             <div id="scoreBadge" class="badge">等待输入</div>
           </div>
           <div class="pair-display" id="pairDisplay"></div>
-          <div id="bars">
-            <div>
-              <div class="weight-line"><span id="zodiac-bar-label">星座</span><span id="zodiacNum">--</span></div>
-              <div class="bar-wrap"><div class="bar zodiac" id="barZodiac"></div></div>
-            </div>
-            <div>
-              <div class="weight-line"><span id="blood-bar-label">血型</span><span id="bloodNum">--</span></div>
-              <div class="bar-wrap"><div class="bar blood" id="barBlood"></div></div>
-            </div>
-            <div>
-              <div class="weight-line"><span id="mbti-bar-label">MBTI</span><span id="mbtiNum">--</span></div>
-              <div class="bar-wrap"><div class="bar mbti" id="barMBTI"></div></div>
-            </div>
-          </div>
 
-          <table id="detailTable">
-            <thead>
-              <tr>
-                <th id="table-source">来源</th>
-                <th id="table-raw-score">原始分</th>
-                <th id="table-weight">权重</th>
-                <th id="table-contribution">加权贡献</th>
-                <th id="table-description">说明</th>
-              </tr>
-            </thead>
-            <tbody id="detailBody">
-              <tr><td colspan="5" class="empty" id="no-data">暂无数据</td></tr>
-            </tbody>
-          </table>
-          <div class="dim" id="noteText"></div>
         </div>
 
         <div class="card">
@@ -505,7 +432,7 @@
   <script>
     // ================= 语言数据定义 =================
     let currentLang = 'zh';
-    
+
     const translations = {
       zh: {
         'main-title': '星座 · 血型 · MBTI 综合匹配',
@@ -533,12 +460,6 @@
         'rating-0-text': '需努力 / 差异较大',
         'disclaimer': '本工具仅供娱乐参考，不代表真实关系走向。实际相处请以尊重、沟通、成长为核心。',
         'footer-text': '星座血型MBTI匹配计算器 · 前端本地计算',
-        'table-source': '来源',
-        'table-raw-score': '原始分',
-        'table-weight': '权重',
-        'table-contribution': '加权贡献',
-        'table-description': '说明',
-        'no-data': '暂无数据',
         'waiting-input': '等待输入',
         'waiting-zodiac': '等待星座',
         'please-select-zodiac': '请至少选择双方星座',
@@ -587,12 +508,6 @@
         'rating-0-text': 'Need Effort / Significant Differences',
         'disclaimer': 'This tool is for entertainment reference only and does not represent actual relationship outcomes. Please prioritize respect, communication, and growth in real relationships.',
         'footer-text': 'Zodiac Blood Type MBTI Compatibility Calculator · Frontend Local Calculation',
-        'table-source': 'Source',
-        'table-raw-score': 'Raw Score',
-        'table-weight': 'Weight',
-        'table-contribution': 'Weighted Contribution',
-        'table-description': 'Description',
-        'no-data': 'No data',
         'waiting-input': 'Waiting for input',
         'waiting-zodiac': 'Waiting for zodiac',
         'please-select-zodiac': 'Please select at least both zodiac signs',
@@ -654,7 +569,7 @@
     function updateLanguage() {
       // 更新HTML lang属性
       document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
-      
+
       // 更新所有带ID的文本元素
       Object.keys(translations[currentLang]).forEach(key => {
         const element = document.getElementById(key);
@@ -674,7 +589,7 @@
       // 更新语言按钮状态
       document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
       document.getElementById('lang' + (currentLang === 'zh' ? 'CN' : 'EN')).classList.add('active');
-      
+
       // 更新语言按钮样式
       const langButtons = document.querySelectorAll('.lang-btn');
       langButtons.forEach(btn => {
@@ -689,7 +604,7 @@
 
       // 重新填充选择器选项
       fillSelectOptions();
-      
+
       // 重新渲染结果
       renderResult();
     }
@@ -780,26 +695,26 @@
     function getMBTIScore(femaleMBTI, maleMBTI, femaleMBTI2, maleMBTI2){
       // 如果没有MBTI信息，返回null
       if(!femaleMBTI || !maleMBTI) return null;
-      
+
       const f1 = femaleMBTI.toUpperCase();
       const m1 = maleMBTI.toUpperCase();
-      
+
       // 基础分数
       let score1 = (mbtiScores[f1] && mbtiScores[f1][m1] != null) ? mbtiScores[f1][m1] : null;
-      
+
       // 如果没有第二个MBTI，返回基础分数
       if(!femaleMBTI2 || !maleMBTI2) return score1;
-      
+
       const f2 = femaleMBTI2.toUpperCase();
       const m2 = maleMBTI2.toUpperCase();
-      
+
       // 计算所有可能的组合分数
       const scores = [];
       if(mbtiScores[f1] && mbtiScores[f1][m1] != null) scores.push(mbtiScores[f1][m1]);
       if(mbtiScores[f1] && mbtiScores[f1][m2] != null) scores.push(mbtiScores[f1][m2]);
       if(mbtiScores[f2] && mbtiScores[f2][m1] != null) scores.push(mbtiScores[f2][m1]);
       if(mbtiScores[f2] && mbtiScores[f2][m2] != null) scores.push(mbtiScores[f2][m2]);
-      
+
       // 返回最高分（交集中的最佳匹配）
       return scores.length > 0 ? Math.max(...scores) : score1;
     }
@@ -808,7 +723,7 @@
       const z = getZodiacScore(femaleSign, maleSign);
       const b = getBloodScore(femaleBlood, maleBlood);
       const m = getMBTIScore(femaleMBTI, maleMBTI, femaleMBTI2, maleMBTI2);
-      
+
       // 确定权重规则
       let weights, ruleType;
       if(z != null && b != null && m != null) {
@@ -832,24 +747,24 @@
           note:'缺少可用项'
         };
       }
-      
+
       // 计算加权分数
       let total = 0;
       if(z != null) total += z * weights.zodiac;
       if(b != null) total += b * weights.blood;
       if(m != null) total += m * weights.mbti;
-      
+
       // 特殊规则：仅星座且得分55分时加5分
       if(ruleType === 'zodiac_only' && z === 55) {
         total += 5;
       }
-      
+
       return {
         score: +total.toFixed(2),
         components: {zodiac:z, blood:b, mbti:m},
         weights: weights,
         ruleType: ruleType,
-        note: ruleType === 'zodiac_only' ? '仅星座计算' : 
+        note: ruleType === 'zodiac_only' ? '仅星座计算' :
               ruleType === 'zodiac_blood' ? '星座+血型计算' :
               ruleType === 'zodiac_mbti' ? '星座+MBTI计算' : '完整计算'
       };
@@ -874,7 +789,7 @@
         }
         select.children[0].textContent = t('select-zodiac-option');
       });
-      
+
       [femaleBloodSelect, maleBloodSelect, femaleMBTISelect, maleMBTISelect, femaleMBTI2Select, maleMBTI2Select].forEach(select => {
         if(select.children.length > 0) {
           select.children[0].textContent = t('optional-option');
@@ -900,7 +815,7 @@
         om.value = t;
         om.textContent = t;
         maleMBTISelect.appendChild(om);
-        
+
         // 为第二个MBTI选择器添加选项
         const of2 = document.createElement('option');
         of2.value = t;
@@ -916,15 +831,7 @@
 
     const scoreValueEl = document.getElementById('scoreValue');
     const scoreBadgeEl = document.getElementById('scoreBadge');
-    const detailBody = document.getElementById('detailBody');
-    const noteText = document.getElementById('noteText');
     const pairDisplay = document.getElementById('pairDisplay');
-    const barZodiac = document.getElementById('barZodiac');
-    const barBlood = document.getElementById('barBlood');
-    const barMBTI = document.getElementById('barMBTI');
-    const zodiacNum = document.getElementById('zodiacNum');
-    const bloodNum = document.getElementById('bloodNum');
-    const mbtiNum = document.getElementById('mbtiNum');
 
     function classify(score){
       if(score == null) return { cls:'', text: t('waiting-input') };
@@ -935,17 +842,6 @@
       return { cls:'poor', text: t('need-effort') };
     }
 
-    function updateBars(z,b,m){
-      function setBar(bar, val){
-        bar.style.width = val == null ? '0%' : (val + '%');
-      }
-      setBar(barZodiac, z);
-      setBar(barBlood, b);
-      setBar(barMBTI, m);
-      zodiacNum.textContent = z == null ? '--' : z.toFixed(0);
-      bloodNum.textContent = b == null ? '--' : b.toFixed(0);
-      mbtiNum.textContent = m == null ? '--' : m.toFixed(0);
-    }
 
     function renderResult(){
       const femaleSign = femaleSignSelect.value;
@@ -963,10 +859,7 @@
         scoreValueEl.textContent = '--';
         scoreBadgeEl.className = 'badge';
         scoreBadgeEl.textContent = t('waiting-zodiac');
-        detailBody.innerHTML = `<tr><td colspan="5" class="empty">${t('please-select-zodiac')}</td></tr>`;
-        noteText.textContent = '';
         pairDisplay.innerHTML = '';
-        updateBars(null,null,null);
         return;
       }
 
@@ -975,53 +868,15 @@
       scoreBadgeEl.className = 'badge ' + (cls.cls || '');
       scoreBadgeEl.textContent = cls.text;
 
-      // 细节行
-      const rows = [];
-      const comp = res.components;
-      const entries = [
-        { key:'zodiac', label:'星座', raw:comp.zodiac, w:res.weights.zodiac || 0 },
-        { key:'blood', label:'血型', raw:comp.blood, w:res.weights.blood || 0 },
-        { key:'mbti', label:'MBTI', raw:comp.mbti, w:res.weights.mbti || 0 }
-      ];
-      entries.forEach(e => {
-        const labelText = currentLang === 'zh' ? e.label : 
-          (e.label === '星座' ? 'Zodiac' : e.label === '血型' ? 'Blood Type' : 'MBTI');
-        
-        if(e.raw == null){
-          rows.push(`<tr>
-            <td>${labelText}</td>
-            <td>--</td><td>${(e.w*100).toFixed(0)}%</td>
-            <td>--</td>
-            <td style="color:#677887">${t('not-participated')}</td>
-          </tr>`);
-        } else {
-          const effectiveW = e.w;
-          const contribution = e.raw * effectiveW;
-          const description = e.label==='MBTI'? labelReverse(e.raw): '—';
-          rows.push(`<tr>
-            <td>${labelText}</td>
-            <td>${e.raw}</td>
-            <td>${(effectiveW*100).toFixed(1)}%</td>
-            <td>${contribution.toFixed(2)}</td>
-            <td>${description}</td>
-          </tr>`);
-        }
-      });
-      detailBody.innerHTML = rows.join('');
 
-      const notePrefix = res.note;
-      const totalWeight = Object.values(res.weights || {}).reduce((a,b) => a+b, 0);
-      noteText.textContent = notePrefix + ' | 权重总和: ' + totalWeight.toFixed(2);
 
-      // 条形
-      updateBars(comp.zodiac, comp.blood, comp.mbti);
 
       // 配对概览
       pairDisplay.innerHTML = '';
       const fragments = [];
       const femaleZodiacText = zodiacTranslations[currentLang][femaleSign];
       const maleZodiacText = zodiacTranslations[currentLang][maleSign];
-      
+
       fragments.push(`<span>${t('female-zodiac')}<b class="highlight">${femaleZodiacText}</b></span>`);
       fragments.push(`<span>${t('male-zodiac')}<b class="highlight">${maleZodiacText}</b></span>`);
       if(femaleBlood) fragments.push(`<span>${t('female-blood')}${femaleBlood}</span>`);
