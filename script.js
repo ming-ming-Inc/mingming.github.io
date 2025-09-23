@@ -636,6 +636,8 @@ function nextPage() {
     if (currentPage < totalPages - 1) {
         currentPage++;
         displayCurrentPage();
+        // 页面置顶
+        window.scrollTo(0, 0);
     }
 }
 
@@ -644,6 +646,8 @@ function previousPage() {
     if (currentPage > 0) {
         currentPage--;
         displayCurrentPage();
+        // 页面置顶
+        window.scrollTo(0, 0);
     }
 }
 
