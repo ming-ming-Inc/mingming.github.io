@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title id="page-title">星座 + 血型 + MBTI 综合匹配计算器</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="simpleMatch.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+        <div style="flex: 1;">
+          <h1 id="main-title">星座 · 血型 · MBTI 综合匹配</h1>
+          <p class="lead" id="main-desc">输入星座、血型、MBTI信息，获得专业的综合匹配评分。缺失项自动优化计算。</p>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 8px;">
+          <button type="button" id="langCN" class="lang-btn active" style="font-size: 0.75rem; padding: 6px 12px; border: 1px solid var(--border); background: var(--accent); color: white; border-radius: 4px; cursor: pointer;">中文</button>
+          <button type="button" id="langEN" class="lang-btn" style="font-size: 0.75rem; padding: 6px 12px; border: 1px solid var(--border); background: var(--panel-alt); color: var(--muted); border-radius: 4px; cursor: pointer;">English</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- 左侧输入 -->
+      <div class="card">
+        <h2 class="section-title" id="input-title">输入参数</h2>
+        <form id="form">
+          <fieldset>
+            <legend id="female-legend">女方</legend>
+            <div class="group cols-2">
+              <label>
+                <span id="zodiac-label">星座</span>
+                <select name="femaleSign" required>
+                  <option value="" id="select-zodiac-option">选择星座</option>
+                </select>
+              </label>
+              <label>
+                <span id="blood-label">血型</span>
+                <select name="femaleBlood" id="femaleBloodSelect">
+                  <option value="" id="optional-option">(可选)</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="O">O</option>
+                  <option value="AB">AB</option>
+                </select>
+              </label>
+              <label>
+                <span id="mbti-label">MBTI</span>
+                <select name="femaleMBTI">
+                  <option value="" id="optional-option2">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span id="mbti2-label">MBTI 2</span>
+                <select name="femaleMBTI2">
+                  <option value="" id="optional-option-mbti2">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span id="birthdate-label">出生年月</span>
+                <input type="date" name="femaleBirthDate" placeholder="1990-01-15" />
+              </label>
+              <label>
+                <span id="birthtime-label">出生时间</span>
+                <input type="time" name="femaleBirthTime" step="1" placeholder="14:30:00" />
+              </label>
+              <label>
+                <span id="birthcountry-label">出生国家</span>
+                <select name="femaleBirthCountry">
+                  <option value="" id="select-country-option">选择国家</option>
+                </select>
+              </label>
+              <label>
+                <span id="birthcity-label">出生城市</span>
+                <select name="femaleBirthCity">
+                  <option value="" id="select-city-option">选择城市</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend id="male-legend">男方</legend>
+            <div class="group cols-2">
+              <label>
+                <span id="zodiac-label2">星座</span>
+                <select name="maleSign" required>
+                  <option value="" id="select-zodiac-option2">选择星座</option>
+                </select>
+              </label>
+              <label>
+                <span id="blood-label2">血型</span>
+                <select name="maleBlood" id="maleBloodSelect">
+                  <option value="" id="optional-option3">(可选)</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="O">O</option>
+                  <option value="AB">AB</option>
+                </select>
+              </label>
+              <label>
+                <span id="mbti-label2">MBTI</span>
+                <select name="maleMBTI">
+                  <option value="" id="optional-option4">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span id="mbti2-label2">MBTI 2</span>
+                <select name="maleMBTI2">
+                  <option value="" id="optional-option-mbti2-2">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span id="birthdate-label2">出生年月</span>
+                <input type="date" name="maleBirthDate" placeholder="1990-01-15" />
+              </label>
+              <label>
+                <span id="birthtime-label2">出生时间</span>
+                <input type="time" name="maleBirthTime" step="1" placeholder="14:30:00" />
+              </label>
+              <label>
+                <span id="birthcountry-label2">出生国家</span>
+                <select name="maleBirthCountry">
+                  <option value="" id="select-country-option2">选择国家</option>
+                </select>
+              </label>
+              <label>
+                <span id="birthcity-label2">出生城市</span>
+                <select name="maleBirthCity">
+                  <option value="" id="select-city-option2">选择城市</option>
+                </select>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <!-- <legend id="options-legend">选项</legend> -->
+            <div class="group">
+              <!-- <div class="inline-label">
+                <input type="checkbox" id="autoUpdate" checked />
+                <label for="autoUpdate" style="margin:0; font-size:.7rem; cursor:pointer;" id="realtime-label">实时计算</label>
+              </div> -->
+              <div class="notice" id="notice-text">
+                提示：星座为必填。可逐步添加血型、MBTI 信息，系统将自动优化计算匹配度。
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="btn-row">
+            <button type="button" id="calcBtn">计算</button>
+            <button type="button" class="secondary" id="randomBtn">随机示例</button>
+            <button type="button" class="secondary" id="clearBtn">清空</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- 右侧结果 -->
+      <div class="score-panel">
+        <div class="score-box" id="resultBox">
+          <div class="score-main">
+            <div class="score-value" id="scoreValue">--</div>
+            <div id="scoreBadge" class="badge">等待输入</div>
+          </div>
+          <div class="pair-display" id="pairDisplay"></div>
+
+        </div>
+
+        <div class="card">
+          <h2 class="section-title" id="rating-title">评分等级</h2>
+          <div class="mini-grid">
+            <div class="chip" id="rating-90"><strong style="color:#ffffff">90~100</strong> <span id="rating-90-text">极佳 / 天生一对</span></div>
+            <div class="chip" id="rating-80"><strong style="color:#6dc9ff">80~89</strong> <span id="rating-80-text">很好 / 稳定向上</span></div>
+            <div class="chip" id="rating-70"><strong style="color:#5ce0a2">70~79</strong> <span id="rating-70-text">中上 / 需沟通巩固</span></div>
+            <div class="chip" id="rating-60"><strong style="color:#ffcf6d">60~69</strong> <span id="rating-60-text">尚可 / 可试试看</span></div>
+            <div class="chip" id="rating-0"><strong style="color:#ff8590">0~59</strong> <span id="rating-0-text">需努力 / 差异较大</span></div>
+          </div>
+          <p class="dim" style="margin-top:12px;" id="disclaimer">
+            本工具仅供娱乐参考，不代表真实关系走向。实际相处请以尊重、沟通、成长为核心。
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <footer id="footer-text">
+      星座血型MBTI匹配计算器 · 前端本地计算
+    </footer>
+  </div>
+  <script src="simpleMatch.js"></script>
+</body>
+</html>
