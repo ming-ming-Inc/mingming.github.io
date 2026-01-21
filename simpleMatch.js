@@ -20,6 +20,17 @@ const translations = {
         'birthtime-label2': '出生时间',
         'birthcountry-label2': '出生国家',
         'birthcity-label2': '出生城市',
+        'gender-match-label': '匹配方向',
+        'gender-match-male-female': '男 -> 女',
+        'gender-match-female-male': '女 -> 男',
+        'love-language-label': '爱的表达方式',
+        'conflict-style-label': '冲突处理方式',
+        'values-alignment-label': '价值观取向',
+        'emotional-regulation-label': '情绪调节能力',
+        'intimacy-need-level-label': '亲密需求强度',
+        'relationship-rhythm-label': '关系投入节奏',
+        'relationship-focus-label': '关系侧重',
+        'relationship-interaction-focus-label': '相处特质侧重',
         'select-zodiac-option': '选择星座',
         'select-country-option': '选择国家',
         'select-country-option2': '选择国家',
@@ -81,6 +92,17 @@ const translations = {
         'birthtime-label2': 'Birth Time',
         'birthcountry-label2': 'Birth Country',
         'birthcity-label2': 'Birth City',
+        'gender-match-label': 'Match Direction',
+        'gender-match-male-female': 'Male -> Female',
+        'gender-match-female-male': 'Female -> Male',
+        'love-language-label': 'Love Language',
+        'conflict-style-label': 'Conflict Style',
+        'values-alignment-label': 'Values Alignment',
+        'emotional-regulation-label': 'Emotional Regulation',
+        'intimacy-need-level-label': 'Intimacy Need Level',
+        'relationship-rhythm-label': 'Relationship Rhythm',
+        'relationship-focus-label': 'Relationship Focus',
+        'relationship-interaction-focus-label': 'Relationship Interaction Focus',
         'select-zodiac-option': 'Select Zodiac',
         'select-country-option': 'Select Country',
         'select-country-option2': 'Select Country',
@@ -181,6 +203,18 @@ async function updateLanguage() {
         }
     });
 
+    // 更新所有带 data-i18n 的文本元素
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        const text = translations[currentLang][key];
+        if (!text) return;
+        if (element.tagName === 'INPUT' && element.type === 'button') {
+            element.value = text;
+        } else {
+            element.textContent = text;
+        }
+    });
+
     // 更新语言按钮状态
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById('lang' + (currentLang === 'zh' ? 'CN' : 'EN')).classList.add('active');
@@ -200,6 +234,7 @@ async function updateLanguage() {
     // 重新填充选择器选项
     await setBirthPlaceData();
     fillSelectOptions();
+    fillTraitOptions();
 
     // 重新渲染结果
     renderResult();
@@ -210,6 +245,84 @@ const zodiacNames = Object.keys(zodiacTranslations.zh);
 const mbtiTypes = ['INFP', 'ENFP', 'INFJ', 'ENFJ', 'INTJ', 'ENTJ', 'INTP', 'ENTP', 'ISFP', 'ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'];
 let birthPlaceData = [];
 let countryDataCache = null;
+
+const traitOptionGroups = [
+    {
+        fieldKey: 'LoveLanguage',
+        options: [
+            { code: 'LOVE_WORDS', zh: '言语肯定', en: 'Words of affirmation' },
+            { code: 'LOVE_ACTIONS', zh: '行动付出', en: 'Acts of service' },
+            { code: 'LOVE_TIME', zh: '时间陪伴', en: 'Quality time' },
+            { code: 'LOVE_TOUCH', zh: '肢体接触', en: 'Physical touch' },
+            { code: 'LOVE_GIFTS', zh: '礼物表达', en: 'Receiving gifts' }
+        ]
+    },
+    {
+        fieldKey: 'ConflictStyle',
+        options: [
+            { code: 'CONFLICT_DIRECT', zh: '直面沟通', en: 'Direct communication' },
+            { code: 'CONFLICT_COOLING', zh: '冷静处理', en: 'Cooling-off approach' },
+            { code: 'CONFLICT_EMOTIONAL', zh: '情绪外显', en: 'Emotional expression' },
+            { code: 'CONFLICT_AVOIDANT', zh: '回避处理', en: 'Avoidance-first approach' }
+        ]
+    },
+    {
+        fieldKey: 'ValuesAlignment',
+        options: [
+            { code: 'VALUE_SECURITY', zh: '稳定与安全', en: 'Stability & security' },
+            { code: 'VALUE_EXPERIENCE', zh: '当下体验', en: 'Present enjoyment' },
+            { code: 'VALUE_GROWTH', zh: '共同成长', en: 'Long-term growth' },
+            { code: 'VALUE_FREEDOM', zh: '自由与独立', en: 'Freedom & independence' },
+            { code: 'VALUE_BOUNDARY', zh: '清晰边界', en: 'Clear boundaries' }
+        ]
+    },
+    {
+        fieldKey: 'EmotionalRegulation',
+        options: [
+            { code: 'EMO_SELF', zh: '自我调节', en: 'Self-regulated' },
+            { code: 'EMO_ALONE', zh: '独处恢复', en: 'Recover through solitude' },
+            { code: 'EMO_SUPPORT', zh: '需要陪伴', en: 'Support-seeking' },
+            { code: 'EMO_EXTERNAL', zh: '情绪外显', en: 'Emotionally expressive' }
+        ]
+    },
+    {
+        fieldKey: 'IntimacyNeedLevel',
+        options: [
+            { code: 'INTIMACY_HIGH', zh: '高频亲密', en: 'High-frequency intimacy' },
+            { code: 'INTIMACY_STABLE', zh: '稳定亲密', en: 'Steady intimacy' },
+            { code: 'INTIMACY_PHASE', zh: '阶段性亲密', en: 'Phase-based intimacy' },
+            { code: 'INTIMACY_LOW', zh: '低频亲密', en: 'Low-frequency intimacy' }
+        ]
+    },
+    {
+        fieldKey: 'RelationshipRhythm',
+        options: [
+            { code: 'REL_SLOW', zh: '慢慢投入', en: 'Slow-burn' },
+            { code: 'REL_STEADY', zh: '稳定推进', en: 'Steady development' },
+            { code: 'REL_FAST', zh: '快速确认', en: 'Fast commitment' },
+            { code: 'REL_OPEN', zh: '顺其自然', en: 'Go-with-the-flow' }
+        ]
+    },
+    {
+        fieldKey: 'RelationshipFocus',
+        options: [
+            { code: 'REL_CARE', zh: '被关心', en: 'Feeling cared for' },
+            { code: 'REL_RESPECT', zh: '被尊重', en: 'Feeling respected' },
+            { code: 'REL_UNDERSTAND', zh: '被理解', en: 'Feeling understood' },
+            { code: 'REL_TRUST', zh: '被信任', en: 'Feeling trusted' }
+        ]
+    },
+    {
+        fieldKey: 'RelationshipInteractionFocus',
+        options: [
+            { code: 'TRAIT_OPEN', zh: '开放探索', en: 'Open to experience' },
+            { code: 'TRAIT_CONSCIENT', zh: '自律可靠', en: 'Conscientious' },
+            { code: 'TRAIT_SOCIAL', zh: '外向社交', en: 'Socially outgoing' },
+            { code: 'TRAIT_AGREEABLE', zh: '温和友善', en: 'Agreeable' },
+            { code: 'TRAIT_STABLE', zh: '情绪稳定', en: 'Emotionally stable' }
+        ]
+    }
+];
 
 async function loadCountryData() {
     if (countryDataCache) return countryDataCache;
@@ -269,6 +382,30 @@ function resetSelect(select, placeholderText) {
     placeholder.value = '';
     placeholder.textContent = placeholderText;
     select.appendChild(placeholder);
+}
+
+function populateTraitSelect(select, options) {
+    if (!select) return;
+    const selectedValue = select.value;
+    resetSelect(select, t('optional-option'));
+    options.forEach(option => {
+        const opt = document.createElement('option');
+        opt.value = option.code;
+        opt.textContent = currentLang === 'zh' ? option.zh : option.en;
+        select.appendChild(opt);
+    });
+    if (selectedValue) {
+        select.value = selectedValue;
+    }
+}
+
+function fillTraitOptions() {
+    ['female', 'male'].forEach(prefix => {
+        traitOptionGroups.forEach(group => {
+            const select = form.elements[`${prefix}${group.fieldKey}`];
+            populateTraitSelect(select, group.options);
+        });
+    });
 }
 
 function populateCountryOptions(select, selectedValue) {
@@ -360,7 +497,8 @@ function fillSelectOptions() {
 }
 async function init() {
     await setBirthPlaceData();
-    fillSelectOptions();
+fillSelectOptions();
+    fillTraitOptions();
     renderResult();
 }
 init();
@@ -440,9 +578,11 @@ async function calculateAndRender() {
     scoreBadgeEl.className = 'badge';
     scoreBadgeEl.textContent = t('calculating');
 
+    const genderMatchType = form.elements['genderMatchType']?.value || 'female_male';
     const payload = {
         fromUser: buildUserPayload(true),
-        toUser: buildUserPayload(false)
+        toUser: buildUserPayload(false),
+        genderMatchType
     };
 
     try {

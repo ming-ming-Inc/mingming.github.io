@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <title id="page-title">星座 + 血型 + MBTI 综合匹配计算器</title>
+  <title id="page-title">多维爱情契合度匹配</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="simpleMatch.css">
 </head>
@@ -11,8 +11,8 @@
     <header>
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
         <div style="flex: 1;">
-          <h1 id="main-title">星座 · 血型 · MBTI 综合匹配</h1>
-          <p class="lead" id="main-desc">输入星座、血型、MBTI信息，获得专业的综合匹配评分。缺失项自动优化计算。</p>
+          <h1 id="main-title">多维爱情契合度匹配</h1>
+          <p class="lead" id="main-desc">输入双方多维人格特质信息，获得专业的爱情综合匹配评分。</p>
         </div>
         <div style="display: flex; gap: 8px; margin-top: 8px;">
           <button type="button" id="langCN" class="lang-btn active" style="font-size: 0.75rem; padding: 6px 12px; border: 1px solid var(--border); background: var(--accent); color: white; border-radius: 4px; cursor: pointer;">中文</button>
@@ -77,6 +77,54 @@
                   <option value="" id="select-city-option">选择城市</option>
                 </select>
               </label>
+              <label>
+                <span data-i18n="love-language-label">爱的表达方式</span>
+                <select name="femaleLoveLanguage">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="conflict-style-label">冲突处理方式</span>
+                <select name="femaleConflictStyle">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="values-alignment-label">价值观取向</span>
+                <select name="femaleValuesAlignment">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="emotional-regulation-label">情绪调节能力</span>
+                <select name="femaleEmotionalRegulation">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="intimacy-need-level-label">亲密需求强度</span>
+                <select name="femaleIntimacyNeedLevel">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="relationship-rhythm-label">关系投入节奏</span>
+                <select name="femaleRelationshipRhythm">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="relationship-focus-label">关系侧重</span>
+                <select name="femaleRelationshipFocus">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="relationship-interaction-focus-label">相处特质侧重</span>
+                <select name="femaleRelationshipInteractionFocus">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
             </div>
           </fieldset>
 
@@ -131,12 +179,67 @@
                   <option value="" id="select-city-option2">选择城市</option>
                 </select>
               </label>
+              <label>
+                <span data-i18n="love-language-label">爱的表达方式</span>
+                <select name="maleLoveLanguage">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="conflict-style-label">冲突处理方式</span>
+                <select name="maleConflictStyle">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="values-alignment-label">价值观取向</span>
+                <select name="maleValuesAlignment">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="emotional-regulation-label">情绪调节能力</span>
+                <select name="maleEmotionalRegulation">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="intimacy-need-level-label">亲密需求强度</span>
+                <select name="maleIntimacyNeedLevel">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="relationship-rhythm-label">关系投入节奏</span>
+                <select name="maleRelationshipRhythm">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="relationship-focus-label">关系侧重</span>
+                <select name="maleRelationshipFocus">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="relationship-interaction-focus-label">相处特质侧重</span>
+                <select name="maleRelationshipInteractionFocus">
+                  <option value="" data-i18n="optional-option">(可选)</option>
+                </select>
+              </label>
             </div>
           </fieldset>
 
           <fieldset>
             <!-- <legend id="options-legend">选项</legend> -->
             <div class="group">
+              <label>
+                <span id="gender-match-label">匹配方向</span>
+                <select name="genderMatchType">
+                  <option value="male_female" id="gender-match-male-female">男 -&gt; 女</option>
+                  <option value="female_male" id="gender-match-female-male" selected>女 -&gt; 男</option>
+                </select>
+              </label>
               <!-- <div class="inline-label">
                 <input type="checkbox" id="autoUpdate" checked />
                 <label for="autoUpdate" style="margin:0; font-size:.7rem; cursor:pointer;" id="realtime-label">实时计算</label>
