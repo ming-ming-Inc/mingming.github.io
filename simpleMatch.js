@@ -38,6 +38,7 @@ const translations = {
         'disclaimer': '本工具仅供娱乐参考，不代表真实关系走向。实际相处请以尊重、沟通、成长为核心。',
         'footer-text': '星座血型MBTI匹配计算器 · 前端本地计算',
         'waiting-input': '等待输入',
+        'calculating': '计算中',
         'calc-failed': '计算失败',
         'waiting-zodiac': '等待星座',
         'please-select-zodiac': '请至少选择双方星座',
@@ -98,6 +99,7 @@ const translations = {
         'disclaimer': 'This tool is for entertainment reference only and does not represent actual relationship outcomes. Please prioritize respect, communication, and growth in real relationships.',
         'footer-text': 'Zodiac Blood Type MBTI Compatibility Calculator · Frontend Local Calculation',
         'waiting-input': 'Waiting for input',
+        'calculating': 'Calculating',
         'calc-failed': 'Calculation failed',
         'waiting-zodiac': 'Waiting for zodiac',
         'please-select-zodiac': 'Please select at least both zodiac signs',
@@ -651,7 +653,11 @@ async function calculateAndRender() {
         return;
     }
 
+    lastSynastry = null;
     renderResult(null);
+    scoreValueEl.textContent = '--';
+    scoreBadgeEl.className = 'badge';
+    scoreBadgeEl.textContent = t('calculating');
 
     const payload = {
         fromUser: buildUserPayload(true),
@@ -670,8 +676,12 @@ async function calculateAndRender() {
         const result = extractScore(data);
 
         if (result.score == null) throw new Error('Score not found');
-        lastSynastry = result.usedSynastry ? { longTerm: result.longTerm, shortTerm: result.shortTerm } : null;
-        updateScoreUI(+result.score.toFixed(2));
+        lastSynastry = (result.longTerm != null || result.shortTerm != null)
+            ? { longTerm: result.longTerm, shortTerm: result.shortTerm }
+            : null;
+        const finalScore = +result.score.toFixed(2);
+        updateScoreUI(finalScore);
+        renderResult(finalScore);
     } catch (error) {
         scoreValueEl.textContent = '--';
         scoreBadgeEl.className = 'badge poor';
