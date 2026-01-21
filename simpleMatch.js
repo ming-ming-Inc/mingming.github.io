@@ -205,35 +205,8 @@ async function updateLanguage() {
     renderResult();
 }
 
-// ================= 数据定义（与先前代码逻辑一致） =================
-const zodiacScores = {
-    '白羊': { '白羊': 80, '金牛': 65, '双子': 90, '巨蟹': 55, '狮子': 100, '处女': 35, '天秤': 60, '天蝎': 45, '射手': 100, '摩羯': 45, '水瓶': 90, '双鱼': 70 },
-    '金牛': { '白羊': 75, '金牛': 80, '双子': 65, '巨蟹': 90, '狮子': 55, '处女': 100, '天秤': 35, '天蝎': 60, '射手': 45, '摩羯': 100, '水瓶': 45, '双鱼': 90 },
-    '双子': { '白羊': 90, '金牛': 75, '双子': 80, '巨蟹': 65, '狮子': 90, '处女': 55, '天秤': 100, '天蝎': 35, '射手': 60, '摩羯': 45, '水瓶': 100, '双鱼': 45 },
-    '巨蟹': { '白羊': 45, '金牛': 90, '双子': 75, '巨蟹': 80, '狮子': 65, '处女': 90, '天秤': 55, '天蝎': 100, '射手': 35, '摩羯': 60, '水瓶': 45, '双鱼': 100 },
-    '狮子': { '白羊': 100, '金牛': 45, '双子': 90, '巨蟹': 70, '狮子': 80, '处女': 65, '天秤': 90, '天蝎': 55, '射手': 100, '摩羯': 35, '水瓶': 60, '双鱼': 45 },
-    '处女': { '白羊': 45, '金牛': 100, '双子': 45, '巨蟹': 90, '狮子': 75, '处女': 80, '天秤': 65, '天蝎': 90, '射手': 55, '摩羯': 100, '水瓶': 35, '双鱼': 60 },
-    '天秤': { '白羊': 60, '金牛': 45, '双子': 100, '巨蟹': 45, '狮子': 90, '处女': 75, '天秤': 80, '天蝎': 65, '射手': 90, '摩羯': 55, '水瓶': 100, '双鱼': 35 },
-    '天蝎': { '白羊': 35, '金牛': 60, '双子': 45, '巨蟹': 100, '狮子': 45, '处女': 90, '天秤': 75, '天蝎': 80, '射手': 65, '摩羯': 90, '水瓶': 55, '双鱼': 100 },
-    '射手': { '白羊': 100, '金牛': 35, '双子': 60, '巨蟹': 45, '狮子': 100, '处女': 45, '天秤': 90, '天蝎': 70, '射手': 80, '摩羯': 65, '水瓶': 90, '双鱼': 55 },
-    '摩羯': { '白羊': 55, '金牛': 100, '双子': 35, '巨蟹': 60, '狮子': 45, '处女': 100, '天秤': 45, '天蝎': 90, '射手': 75, '摩羯': 80, '水瓶': 65, '双鱼': 90 },
-    '水瓶': { '白羊': 90, '金牛': 55, '双子': 100, '巨蟹': 35, '狮子': 60, '处女': 45, '天秤': 100, '天蝎': 45, '射手': 90, '摩羯': 75, '水瓶': 80, '双鱼': 65 },
-    '双鱼': { '白羊': 65, '金牛': 90, '双子': 55, '巨蟹': 100, '狮子': 35, '处女': 60, '天秤': 45, '天蝎': 100, '射手': 45, '摩羯': 90, '水瓶': 75, '双鱼': 80 }
-};
-const zodiacNames = Object.keys(zodiacScores);
-const bloodTypeScores = {
-    'A': { 'A': 70, 'B': 20, 'O': 95, 'AB': 65 },
-    'B': { 'A': 25, 'B': 65, 'O': 75, 'AB': 65 },
-    'O': { 'A': 90, 'B': 80, 'O': 40, 'AB': 30 },
-    'AB': { 'A': 50, 'B': 85, 'O': 35, 'AB': 90 }
-};
-const mbtiLabelScore = {
-    '天生一对': 100,
-    '还不错': 90,
-    '还可以': 70,
-    '可以试试看': 60,
-    '要多努力': 40
-};
+// ================= 数据定义 =================
+const zodiacNames = Object.keys(zodiacTranslations.zh);
 const mbtiTypes = ['INFP', 'ENFP', 'INFJ', 'ENFJ', 'INTJ', 'ENTJ', 'INTP', 'ENTP', 'ISFP', 'ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'];
 let birthPlaceData = [];
 let countryDataCache = null;
@@ -261,136 +234,6 @@ async function setBirthPlaceData() {
     birthPlaceData = data[currentLang] || data.zh || data.en || [];
 }
 
-const mbtiRows = {
-    'INFP': ['还不错', '还不错', '还不错', '天生一对', '还不错', '天生一对', '还不错', '还不错', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力'],
-    'ENFP': ['还不错', '还不错', '天生一对', '还不错', '天生一对', '还不错', '还不错', '还不错', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力'],
-    'INFJ': ['还不错', '天生一对', '还不错', '还不错', '还不错', '还不错', '还不错', '天生一对', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力'],
-    'ENFJ': ['天生一对', '还不错', '还不错', '还不错', '还不错', '还不错', '还不错', '还不错', '天生一对', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力', '要多努力'],
-    'INTJ': ['还不错', '天生一对', '还不错', '还不错', '还不错', '还不错', '还不错', '天生一对', '还可以', '还可以', '还可以', '还可以', '可以试试看', '可以试试看', '可以试试看', '可以试试看'],
-    'ENTJ': ['天生一对', '还不错', '还不错', '还不错', '还不错', '还不错', '天生一对', '还不错', '还可以', '还可以', '还可以', '还可以', '还可以', '还可以', '还可以', '还可以'],
-    'INTP': ['还不错', '还不错', '还不错', '还不错', '还不错', '天生一对', '还不错', '还不错', '还可以', '还可以', '还可以', '还可以', '可以试试看', '可以试试看', '可以试试看', '天生一对'],
-    'ENTP': ['还不错', '还不错', '天生一对', '还不错', '天生一对', '还不错', '还不错', '还不错', '还可以', '还可以', '还可以', '还可以', '可以试试看', '可以试试看', '可以试试看', '可以试试看'],
-    'ISFP': ['要多努力', '要多努力', '要多努力', '天生一对', '还可以', '还可以', '还可以', '还可以', '可以试试看', '可以试试看', '可以试试看', '可以试试看', '还可以', '天生一对', '还可以', '天生一对'],
-    'ESFP': ['要多努力', '要多努力', '要多努力', '要多努力', '还可以', '还可以', '还可以', '还可以', '可以试试看', '可以试试看', '可以试试看', '可以试试看', '天生一对', '还可以', '天生一对', '还可以'],
-    'ISTP': ['要多努力', '要多努力', '要多努力', '要多努力', '还可以', '还可以', '还可以', '还可以', '可以试试看', '可以试试看', '可以试试看', '可以试试看', '还可以', '天生一对', '还可以', '天生一对'],
-    'ESTP': ['要多努力', '要多努力', '要多努力', '要多努力', '还可以', '还可以', '还可以', '还可以', '可以试试看', '可以试试看', '可以试试看', '可以试试看', '天生一对', '还可以', '天生一对', '还可以'],
-    'ISFJ': ['要多努力', '要多努力', '要多努力', '要多努力', '可以试试看', '还可以', '可以试试看', '可以试试看', '还可以', '天生一对', '还可以', '天生一对', '还不错', '还不错', '还不错', '还不错'],
-    'ESFJ': ['要多努力', '要多努力', '要多努力', '要多努力', '可以试试看', '还可以', '可以试试看', '可以试试看', '天生一对', '还可以', '天生一对', '还可以', '还不错', '还不错', '还不错', '还不错'],
-    'ISTJ': ['要多努力', '要多努力', '要多努力', '要多努力', '可以试试看', '还可以', '可以试试看', '可以试试看', '还可以', '天生一对', '还可以', '天生一对', '还不错', '还不错', '还不错', '还不错'],
-    'ESTJ': ['要多努力', '要多努力', '要多努力', '要多努力', '可以试试看', '还可以', '天生一对', '可以试试看', '天生一对', '还可以', '天生一对', '还可以', '还不错', '还不错', '还不错', '还不错']
-};
-const mbtiScores = {};
-mbtiTypes.forEach(f => {
-    mbtiScores[f] = {};
-    mbtiRows[f].forEach((label, i) => {
-        mbtiScores[f][mbtiTypes[i]] = mbtiLabelScore[label.trim()] ?? null;
-    });
-});
-
-// 新权重规则：
-// 仅星座：100% 权重，55分加权5分
-// 星座+血型：67%, 33%
-// 星座+MBTI：50%, 50%
-// 星座+血型+MBTI：40%, 20%, 40%
-const weightRules = {
-    zodiac_only: { zodiac: 1.0 },
-    zodiac_blood: { zodiac: 0.67, blood: 0.33 },
-    zodiac_mbti: { zodiac: 0.5, mbti: 0.5 },
-    zodiac_blood_mbti: { zodiac: 0.4, blood: 0.2, mbti: 0.4 }
-};
-
-function normalizeSign(name) {
-    return name.replace(/座$/, '').trim();
-}
-function getZodiacScore(femaleSign, maleSign) {
-    if (!femaleSign || !maleSign) return null;
-    const f = normalizeSign(femaleSign);
-    const m = normalizeSign(maleSign);
-    return (zodiacScores[f] && zodiacScores[f][m] != null) ? zodiacScores[f][m] : null;
-}
-function getBloodScore(femaleBlood, maleBlood) {
-    if (!femaleBlood || !maleBlood) return null;
-    const f = femaleBlood.toUpperCase();
-    const m = maleBlood.toUpperCase();
-    return (bloodTypeScores[f] && bloodTypeScores[f][m] != null) ? bloodTypeScores[f][m] : null;
-}
-function getMBTIScore(femaleMBTI, maleMBTI, femaleMBTI2, maleMBTI2) {
-    // 如果没有MBTI信息，返回null
-    if (!femaleMBTI || !maleMBTI) return null;
-
-    const f1 = femaleMBTI.toUpperCase();
-    const m1 = maleMBTI.toUpperCase();
-
-    // 基础分数
-    let score1 = (mbtiScores[f1] && mbtiScores[f1][m1] != null) ? mbtiScores[f1][m1] : null;
-
-    // 如果没有第二个MBTI，返回基础分数
-    if (!femaleMBTI2 || !maleMBTI2) return score1;
-
-    const f2 = femaleMBTI2.toUpperCase();
-    const m2 = maleMBTI2.toUpperCase();
-
-    // 计算所有可能的组合分数
-    const scores = [];
-    if (mbtiScores[f1] && mbtiScores[f1][m1] != null) scores.push(mbtiScores[f1][m1]);
-    if (mbtiScores[f1] && mbtiScores[f1][m2] != null) scores.push(mbtiScores[f1][m2]);
-    if (mbtiScores[f2] && mbtiScores[f2][m1] != null) scores.push(mbtiScores[f2][m1]);
-    if (mbtiScores[f2] && mbtiScores[f2][m2] != null) scores.push(mbtiScores[f2][m2]);
-
-    // 返回最高分（交集中的最佳匹配）
-    return scores.length > 0 ? Math.max(...scores) : score1;
-}
-function calcCompatibility(params) {
-    const { femaleSign, maleSign, femaleBlood, maleBlood, femaleMBTI, maleMBTI, femaleMBTI2, maleMBTI2 } = params;
-    const z = getZodiacScore(femaleSign, maleSign);
-    const b = getBloodScore(femaleBlood, maleBlood);
-    const m = getMBTIScore(femaleMBTI, maleMBTI, femaleMBTI2, maleMBTI2);
-
-    // 确定权重规则
-    let weights, ruleType;
-    if (z != null && b != null && m != null) {
-        weights = weightRules.zodiac_blood_mbti;
-        ruleType = 'zodiac_blood_mbti';
-    } else if (z != null && b != null) {
-        weights = weightRules.zodiac_blood;
-        ruleType = 'zodiac_blood';
-    } else if (z != null && m != null) {
-        weights = weightRules.zodiac_mbti;
-        ruleType = 'zodiac_mbti';
-    } else if (z != null) {
-        weights = weightRules.zodiac_only;
-        ruleType = 'zodiac_only';
-    } else {
-        return {
-            score: null,
-            components: { zodiac: z, blood: b, mbti: m },
-            weights: {},
-            ruleType: 'none',
-            note: '缺少可用项'
-        };
-    }
-
-    // 计算加权分数
-    let total = 0;
-    if (z != null) total += z * weights.zodiac;
-    if (b != null) total += b * weights.blood;
-    if (m != null) total += m * weights.mbti;
-
-    // 特殊规则：仅星座且得分55分时加5分
-    if (ruleType === 'zodiac_only' && z === 55) {
-        total += 5;
-    }
-
-    return {
-        score: +total.toFixed(2),
-        components: { zodiac: z, blood: b, mbti: m },
-        weights: weights,
-        ruleType: ruleType,
-        note: ruleType === 'zodiac_only' ? '仅星座计算' :
-            ruleType === 'zodiac_blood' ? '星座+血型计算' :
-                ruleType === 'zodiac_mbti' ? '星座+MBTI计算' : '完整计算'
-    };
-}
 
 // ================== UI 构建 ==================
 const form = document.getElementById('form');
@@ -683,18 +526,6 @@ function renderResult(scoreOverride) {
         fragments.push(`<span>${t('synastry-short')}${lastSynastry.shortTerm}</span>`);
     }
     pairDisplay.innerHTML = fragments.join('');
-}
-
-function labelReverse(score) {
-    const map = {
-        100: '天生一对',
-        90: '还不错',
-        70: '还可以',
-        60: '可以试试看',
-        40: '要多努力'
-    };
-    const zhLabel = map[score] || '';
-    return currentLang === 'zh' ? zhLabel : (mbtiLabelTranslations.en[zhLabel] || '');
 }
 
 // ============ 交互 ===============
