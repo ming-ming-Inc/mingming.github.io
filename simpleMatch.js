@@ -579,23 +579,6 @@ function buildUserPayload(isFemale) {
     return payload;
 }
 
-function extractScore(response) {
-    const payload = response && typeof response === 'object' ? (response.data || response) : null;
-    if (!payload) return { score: null, usedSynastry: false, longTerm: null, shortTerm: null };
-
-    let score = null;
-    if (typeof payload.totalScore === 'number') score = payload.totalScore;
-    else if (typeof payload.finalScore === 'number') score = payload.finalScore;
-    else if (typeof payload.score === 'number') score = payload.score;
-    else if (typeof payload.compatibilityScore === 'number') score = payload.compatibilityScore;
-
-    const usedSynastry = Boolean(payload.usedSynastry);
-    const longTerm = typeof payload.synastryLongTermScore === 'number' ? payload.synastryLongTermScore : null;
-    const shortTerm = typeof payload.synastryShortTermScore === 'number' ? payload.synastryShortTermScore : null;
-
-    return { score, usedSynastry, longTerm, shortTerm };
-}
-
 async function calculateAndRender() {
     const femaleSign = femaleSignSelect.value;
     const maleSign = maleSignSelect.value;
@@ -628,14 +611,13 @@ async function calculateAndRender() {
 
         if (!response.ok) throw new Error('Request failed');
         const data = await response.json();
-        // const result = extractScore(data);
         console.log(data);
         if (data.totalScore == null) throw new Error('Score not found');
-        lastSynastry = (data.synastryLongTermScore != null || data.synastryShortTermScore!= null)
+        lastSynastry =data.usedSynastry && (data.synastryLongTermScore != null || data.synastryShortTermScore!= null)
             ? { longTerm: data.synastryLongTermScore, shortTerm: data.synastryShortTermScore }
             : null;
             console.log(lastSynastry);
-        const finalScore = data.totalScore.toFixed(2);
+        const finalScore = +data.totalScore.toFixed(2);
         updateScoreUI(finalScore);
         renderResult(finalScore);
     } catch (error) {
