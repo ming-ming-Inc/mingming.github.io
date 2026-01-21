@@ -611,15 +611,14 @@ async function calculateAndRender() {
 
         if (!response.ok) throw new Error('Request failed');
         const data = await response.json();
-        console.log(data);
-        if (data.totalScore == null) throw new Error('Score not found');
-        lastSynastry =data.usedSynastry && (data.synastryLongTermScore != null || data.synastryShortTermScore!= null)
-            ? { longTerm: data.synastryLongTermScore, shortTerm: data.synastryShortTermScore }
+        if(data.code!=200) throw new Error(data.message);
+        const result = data.data;
+        console.log(result);
+        lastSynastry =result.usedSynastry && (result.synastryLongTermScore != null || result.synastryShortTermScore!= null)
+            ? { longTerm: result.synastryLongTermScore, shortTerm: result.synastryShortTermScore }
             : null;
-            console.log(lastSynastry);
-        const finalScore = +data.totalScore.toFixed(2);
-        updateScoreUI(finalScore);
-        renderResult(finalScore);
+        updateScoreUI(result.totalScore);
+        renderResult(result.totalScore);
     } catch (error) {
         scoreValueEl.textContent = '--';
         scoreBadgeEl.className = 'badge poor';
