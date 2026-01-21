@@ -673,13 +673,14 @@ async function calculateAndRender() {
 
         if (!response.ok) throw new Error('Request failed');
         const data = await response.json();
-        const result = extractScore(data);
-
-        if (result.score == null) throw new Error('Score not found');
-        lastSynastry = (result.longTerm != null || result.shortTerm != null)
-            ? { longTerm: result.longTerm, shortTerm: result.shortTerm }
+        // const result = extractScore(data);
+        console.log(data);
+        if (data.totalScore == null) throw new Error('Score not found');
+        lastSynastry = (data.synastryLongTermScore != null || data.synastryShortTermScore!= null)
+            ? { longTerm: data.synastryLongTermScore, shortTerm: data.synastryShortTermScore }
             : null;
-        const finalScore = +result.score.toFixed(2);
+            console.log(lastSynastry);
+        const finalScore = data.totalScore.toFixed(2);
         updateScoreUI(finalScore);
         renderResult(finalScore);
     } catch (error) {
@@ -738,6 +739,7 @@ function renderResult(scoreOverride) {
         const maleDisplay = maleMBTI2 ? `${maleMBTI}+${maleMBTI2}` : maleMBTI;
         fragments.push(`<span>${t('male-mbti')}${maleDisplay}</span>`);
     }
+    console.log(lastSynastry);
     if (lastSynastry && lastSynastry.longTerm != null) {
         fragments.push(`<span>${t('synastry-long')}${lastSynastry.longTerm}</span>`);
     }
