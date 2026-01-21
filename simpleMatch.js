@@ -237,41 +237,6 @@ const mbtiLabelScore = {
 const mbtiTypes = ['INFP', 'ENFP', 'INFJ', 'ENFJ', 'INTJ', 'ENTJ', 'INTP', 'ENTP', 'ISFP', 'ESFP', 'ISTP', 'ESTP', 'ISFJ', 'ESFJ', 'ISTJ', 'ESTJ'];
 let birthPlaceData = [];
 let countryDataCache = null;
-const countryNameFormatter = new Intl.DisplayNames(['zh-CN'], { type: 'region' });
-const cityNameOverrides = {
-    BEIJING: '北京',
-    SHANGHAI: '上海',
-    GUANGZHOU: '广州',
-    SHENZHEN: '深圳',
-    HONG_KONG: '香港',
-    MACAU: '澳门',
-    TAIPEI: '台北',
-    SINGAPORE: '新加坡',
-    TOKYO: '东京',
-    OSAKA: '大阪',
-    SEOUL: '首尔',
-    BUSAN: '釜山',
-    BANGKOK: '曼谷',
-    KUALA_LUMPUR: '吉隆坡',
-    JAKARTA: '雅加达',
-    MANILA: '马尼拉',
-    NEW_YORK: '纽约',
-    LOS_ANGELES: '洛杉矶',
-    SAN_FRANCISCO: '旧金山',
-    CHICAGO: '芝加哥',
-    WASHINGTON: '华盛顿',
-    BOSTON: '波士顿',
-    LONDON: '伦敦',
-    PARIS: '巴黎',
-    BERLIN: '柏林',
-    ROME: '罗马',
-    MADRID: '马德里',
-    MOSCOW: '莫斯科',
-    TORONTO: '多伦多',
-    VANCOUVER: '温哥华',
-    SYDNEY: '悉尼',
-    MELBOURNE: '墨尔本'
-};
 
 async function loadCountryData() {
     if (countryDataCache) return countryDataCache;
@@ -445,21 +410,11 @@ const birthCountrySelects = [femaleBirthCountrySelect, maleBirthCountrySelect];
 const birthCitySelects = [femaleBirthCitySelect, maleBirthCitySelect];
 
 function getCountryLabel(country) {
-    if (currentLang === 'zh') {
-        return countryNameFormatter.of(country.countryCode) || country.countryName || '';
-    }
-    return country.countryName || '';
+    return country.countryName || country.countryCode || '';
 }
 
 function getCityLabel(city) {
-    if (currentLang === 'zh') {
-        const override = cityNameOverrides[city.cityCode] || cityNameOverrides[city.city];
-        if (override && override !== city.city) {
-            return `${override} (${city.city})`;
-        }
-        return override || city.city || '';
-    }
-    return city.city || '';
+    return city.city || city.cityCode || '';
 }
 
 
