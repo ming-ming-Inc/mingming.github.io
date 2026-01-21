@@ -3,8 +3,8 @@
 let currentLang = 'zh';
 const translations = {
     zh: {
-        'main-title': '星座 · 血型 · MBTI 综合匹配',
-        'main-desc': '输入星座、血型、MBTI信息，获得专业的综合匹配评分。缺失项自动优化计算。',
+        'main-title': '多维爱情契合度匹配',
+        'main-desc': '输入双方多维人格特质信息，获得专业的爱情综合匹配评分',
         'input-title': '输入参数',
         'female-legend': '女方',
         'male-legend': '男方',
@@ -72,11 +72,11 @@ const translations = {
         'good': '中上',
         'try': '可尝试',
         'need-effort': '需努力',
-        'page-title': '星座 + 血型 + MBTI 综合匹配计算器'
+        'page-title': '多维爱情契合度匹配'
     },
     en: {
-        'main-title': 'Zodiac · Blood Type · MBTI Compatibility',
-        'main-desc': 'Enter zodiac, blood type, and MBTI information to get professional comprehensive compatibility scores. Missing items are automatically optimized for calculation.',
+        'main-title': 'Multidimensional Love Compatibility Matching',
+        'main-desc': 'Input multidimensional personality traits of both parties to obtain a professional comprehensive love compatibility score.',
         'input-title': 'Input Parameters',
         'female-legend': 'Female',
         'male-legend': 'Male',
@@ -144,7 +144,7 @@ const translations = {
         'good': 'Good',
         'try': 'Try',
         'need-effort': 'Need Effort',
-        'page-title': 'Zodiac + Blood Type + MBTI Compatibility Calculator'
+        'page-title': 'Multidimensional Love Compatibility Matching'
     }
 };
 
